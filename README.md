@@ -63,7 +63,7 @@ Set `MaximizeAtStartup` to `True`.
     </winui:Winston>
 ```
 
-## Enable multi-language
+## Set up multi-language
 
 The next steps are required for all WinUI 3 applications that need to provide multi-language support. Some steps are described in [Localize your WinUI 3 app](https://learn.microsoft.com/en-us/windows/apps/winui/winui3/localize-winui3-app) however the full implementation is not there.
 
@@ -115,3 +115,12 @@ this.YesNoResult.Text = continueProcess.ToString();
 
 await DialogLang.ShowInformationAsync("DialogOKTest/Text");
 ```
+
+The next entries are provided by default in `Desktiny.WinUI` for `en-US` and `es-MX` languages:
+
+- DialogTitleDefault.Text
+- DialogCloseDefault.Text
+- DialogCloseNo.Text
+- DialogCloseYes.Text
+
+You can override the values by creating the same entries in the `Resources.resw` files of your project. Make sure you set up your app to support multi-language.

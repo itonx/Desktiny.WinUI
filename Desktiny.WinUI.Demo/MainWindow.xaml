@@ -15,10 +15,10 @@
     </Window.SystemBackdrop>
 
     <!--  Replace default content with Winston  -->
-    <winui:Winston MaximizeAtStartup="True">
+    <winui:Winston IsNocturneVisible="False" MaximizeAtStartup="True">
         <StackPanel
+            Margin="0,50,0,0"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
             Spacing="10">
             <TextBlock FontSize="20">
                 Desktiny.WinUI
@@ -33,5 +33,20 @@
             </StackPanel>
             <Button Click="Button_Click_1">Show OK dialog</Button>
         </StackPanel>
+        <winui:Winston.NocturneContent>
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+                <ProgressRing
+                    Width="50"
+                    Height="50"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsIndeterminate="True" />
+                <TextBlock VerticalAlignment="Center" FontSize="30">Loading...</TextBlock>
+            </StackPanel>
+        </winui:Winston.NocturneContent>
     </winui:Winston>
 </Window>

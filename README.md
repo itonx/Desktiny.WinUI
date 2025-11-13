@@ -63,6 +63,41 @@ Set `MaximizeAtStartup` to `True`.
     </winui:Winston>
 ```
 
+## Nocturne
+
+`Winston` contains the `NocturneContent` property that you can use to display a control on top of your app. All the content in the window will reduce the opacity while `Nocturne` is visible. This is useful for scenarios that need to display a progress bar while loading stuff.
+
+```xml
+<winui:Winston IsNocturneVisible="False" MaximizeAtStartup="True">
+    <StackPanel>
+        <!--  Window content here ...  -->
+    </StackPanel>
+    <!--  Nocturne  -->
+    <winui:Winston.NocturneContent>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="10">
+            <ProgressRing
+                Width="50"
+                Height="50"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsIndeterminate="True" />
+            <TextBlock VerticalAlignment="Center" FontSize="30">Loading...</TextBlock>
+        </StackPanel>
+    </winui:Winston.NocturneContent>
+</winui:Winston>
+```
+
+Set `IsNocturneVisible` to True/False to display or hide `Nocturne`.
+
+<img src="assets/NocturneHidden.png">
+<img src="assets/NocturneVisible.png">
+
+> The `IsNocturneVisible` property supports binding.
+
 ## Set up multi-language
 
 The next steps are required for all WinUI 3 applications that need to provide multi-language support. Some steps are described in [Localize your WinUI 3 app](https://learn.microsoft.com/en-us/windows/apps/winui/winui3/localize-winui3-app) however the full implementation is not there.
@@ -140,38 +175,3 @@ The next entries are provided by default in `Desktiny.WinUI` for `en-US` and `es
 - DialogOKTest.Text
 
 You can override the values by creating the same entries in the `Resources.resw` files of your project. Make sure you set up your app to support multi-language.
-
-## Nocturne
-
-`Winston` contains the `NocturneContent` property that you can use to display a control on top of your app. All the content in the window will reduce the opacity while `Nocturne` is visible. This is useful for scenarios that need to display a progress bar while loading stuff.
-
-```xml
-<winui:Winston IsNocturneVisible="False" MaximizeAtStartup="True">
-    <StackPanel>
-        <!--  Window content here ...  -->
-    </StackPanel>
-    <!--  Nocturne  -->
-    <winui:Winston.NocturneContent>
-        <StackPanel
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Orientation="Horizontal"
-            Spacing="10">
-            <ProgressRing
-                Width="50"
-                Height="50"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                IsIndeterminate="True" />
-            <TextBlock VerticalAlignment="Center" FontSize="30">Loading...</TextBlock>
-        </StackPanel>
-    </winui:Winston.NocturneContent>
-</winui:Winston>
-```
-
-Set `IsNocturneVisible` to True/False to display or hide `Nocturne`.
-
-<img src="assets/NocturneHidden.png">
-<img src="assets/NocturneVisible.png">
-
-> The `IsNocturneVisible` property supports binding.

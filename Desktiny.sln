@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36603.0 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktiny.WinUI", "Desktiny.WinUI\Desktiny.WinUI.csproj", "{BB5260AD-4AC3-44E7-87A7-D5194640321E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desktiny.WinUI.Demo", "Desktiny.WinUI.Demo\Desktiny.WinUI.Demo.csproj", "{976BD1D0-DEA5-40CC-811E-EBCD83A7F6E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,12 @@ Global
 		{BB5260AD-4AC3-44E7-87A7-D5194640321E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB5260AD-4AC3-44E7-87A7-D5194640321E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB5260AD-4AC3-44E7-87A7-D5194640321E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{976BD1D0-DEA5-40CC-811E-EBCD83A7F6E0}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{976BD1D0-DEA5-40CC-811E-EBCD83A7F6E0}.Debug|Any CPU.Build.0 = Debug|x64
+		{976BD1D0-DEA5-40CC-811E-EBCD83A7F6E0}.Debug|Any CPU.Deploy.0 = Debug|x64
+		{976BD1D0-DEA5-40CC-811E-EBCD83A7F6E0}.Release|Any CPU.ActiveCfg = Release|x64
+		{976BD1D0-DEA5-40CC-811E-EBCD83A7F6E0}.Release|Any CPU.Build.0 = Release|x64
+		{976BD1D0-DEA5-40CC-811E-EBCD83A7F6E0}.Release|Any CPU.Deploy.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

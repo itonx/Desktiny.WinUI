@@ -48,6 +48,7 @@ namespace Desktiny.WinUI
 
         private static void OnTitleBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (e.NewValue == null) return;
             Winston winContainer = d as Winston;
             EnableCustomAppTitleBarBehavior autoSizeAppTitleBarCaptionsBehavior = new();
             Interaction.GetBehaviors(winContainer).Add(autoSizeAppTitleBarCaptionsBehavior);
@@ -83,7 +84,7 @@ namespace Desktiny.WinUI
             nameof(AppTheme),
             typeof(AppThemeModel),
             typeof(Winston),
-            new PropertyMetadata(null, OnAppThemeChanged));
+            new PropertyMetadata(new AppThemeModel(ElementTheme.Default, null), OnAppThemeChanged));
 
         private static void OnAppThemeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

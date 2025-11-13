@@ -1,7 +1,9 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:Desktiny.WinUI.Converters"
     xmlns:local="using:Desktiny.WinUI">
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibility" />
 
     <Style TargetType="local:Winston">
         <Setter Property="Template">
@@ -12,7 +14,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <ContentPresenter Canvas.ZIndex="1" Content="{TemplateBinding TitleBar}" />
+                        <ContentControl Canvas.ZIndex="1" Content="{TemplateBinding TitleBar}" />
                         <Grid x:Name="ClientContainer" Grid.Row="1">
                             <ContentPresenter />
                             <Grid

@@ -103,9 +103,22 @@ If you're going to use the value in a `TextBlock`, a valid entry will look like 
 
 > Entries must be added in the `Resources.resw` file for each language. Otherwise, you app might display empty values for a language.
 
+After setting up multi-language in your app, you can use one of the language classes that help you to manage multi-language in your code.
+
+### LanguageService
+
+This class helps you to retrieve the entry language values added in your app, so that you can use them in your code.
+
+```csharp
+LanguageServie languageService = new LanguageService();
+string defaultTitle = _languageService.GetLangValue("DialogTitleDefault/Text");
+
+//Later, you can use defaultTitle to set a control's text or bind a property
+```
+
 ### DialogLangService and DialogLang
 
-After setting up multi-language in your app you can use `DialogLangService` or `DialogLang` to display simple dialogs that support multi-language. Both classes contain the same methods that received the entry name in your `Resources.resw`. `DialogLangService` must be instanciated.
+These classes help you to display simple dialogs for Yes/No options and simple information dialogs that support multi-language.
 
 ```csharp
 //Replace 'DialogTest/Text' with the entry in your Resources.resw
@@ -114,6 +127,8 @@ bool continueProcess = await DialogLang.ShowYesNoAsync("DialogTest/Text");
 
 await DialogLang.ShowInformationAsync("DialogOKTest/Text");
 ```
+
+> `DialogLangService` must be instanciated.
 
 The next entries are provided by default in `Desktiny.WinUI` for `en-US` and `es-MX` languages:
 

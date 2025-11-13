@@ -121,5 +121,7 @@ The next entries are provided by default in `Desktiny.WinUI` for `en-US` and `es
 - DialogCloseDefault.Text
 - DialogCloseNo.Text
 - DialogCloseYes.Text
+- DialogTest.Text
+- DialogOKTest.Text
 
 You can override the values by creating the same entries in the `Resources.resw` files of your project. Make sure you set up your app to support multi-language.

@@ -16,11 +16,22 @@
 
     <!--  Replace default content with Winston  -->
     <winui:Winston MaximizeAtStartup="True">
-        <TextBlock
+        <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            FontSize="20">
-            Hello World!
-        </TextBlock>
+            Spacing="10">
+            <TextBlock FontSize="20">
+                Desktiny.WinUI
+            </TextBlock>
+            <StackPanel
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+                <Button Click="Button_Click">Show Yes/No dialog</Button>
+                <TextBlock VerticalAlignment="Center" Text="Result: " />
+                <TextBlock x:Name="YesNoResult" VerticalAlignment="Center" />
+            </StackPanel>
+            <Button Click="Button_Click_1">Show OK dialog</Button>
+        </StackPanel>
     </winui:Winston>
 </Window>

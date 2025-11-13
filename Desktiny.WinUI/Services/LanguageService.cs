@@ -5,19 +5,12 @@ namespace Desktiny.WinUI.Services
 {
     public interface ILanguageService
     {
-        IReadOnlyList<string> GetShelterVaultSupportedLanguages();
         IReadOnlyList<string> GetUserMachineSupportedLanguages();
         string GetLangValue(string resourceKey);
     }
 
     public class LanguageService : ILanguageService
     {
-        public IReadOnlyList<string> GetShelterVaultSupportedLanguages()
-        {
-
-            return Windows.Globalization.ApplicationLanguages.ManifestLanguages;
-        }
-
         public IReadOnlyList<string> GetUserMachineSupportedLanguages()
         {
             return Windows.Globalization.ApplicationLanguages.Languages;
@@ -25,15 +18,31 @@ namespace Desktiny.WinUI.Services
 
         public string GetLangValue(string resourceKey)
         {
-            return ResourceManager.Current.MainResourceMap.GetSubtree(Constants.Global.LANG_TREE).GetValue(resourceKey).ValueAsString ?? string.Empty;
+            return LangService.GetLangValue(resourceKey);
         }
     }
 
     public static class LangService
     {
+        private static readonly string _assemblyName = typeof(LanguageService).Assembly.GetName().Name;
+        private static readonly ResourceMap _desktinyResourceMap;
+        private static readonly ResourceMap _runningAppResourceMap;
+
+        static LangService()
+        {
+            _desktinyResourceMap = ResourceManager.Current.MainResourceMap.GetSubtree(_assemblyName + "/" + Constants.Global.LANG_TREE);
+            _runningAppResourceMap = ResourceManager.Current.MainResourceMap.GetSubtree(Constants.Global.LANG_TREE);
+        }
+
         public static string GetLangValue(string resourceKey)
         {
-            return ResourceManager.Current.MainResourceMap.GetSubtree(Constants.Global.LANG_TREE).GetValue(resourceKey).ValueAsString ?? string.Empty;
+            string appLangValue = _runningAppResourceMap?.GetValue(resourceKey).ValueAsString ?? string.Empty;
+            if (string.IsNullOrEmpty(appLangValue))
+            {
+                return _desktinyResourceMap.GetValue(resourceKey).ValueAsString ?? string.Empty;
+            }
+
+            return appLangValue;
         }
     }
 }

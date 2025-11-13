@@ -111,7 +111,6 @@ After setting up multi-language in your app you can use `DialogLangService` or `
 //Replace 'DialogTest/Text' with the entry in your Resources.resw
 //Dots must be replaced by slashes when using an entry in the code. This is default behavior in WinUI 3.
 bool continueProcess = await DialogLang.ShowYesNoAsync("DialogTest/Text");
-this.YesNoResult.Text = continueProcess.ToString();
 
 await DialogLang.ShowInformationAsync("DialogOKTest/Text");
 ```

@@ -3,15 +3,26 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Desktiny.WinUI">
 
-    <Style TargetType="local:Winston" >
+    <Style TargetType="local:Winston">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:Winston">
-                    <Border
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}">
-                    </Border>
+                    <Grid x:Name="WindowContainer" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <ContentPresenter Canvas.ZIndex="1" Content="{TemplateBinding TitleBar}" />
+                        <Grid x:Name="ClientContainer" Grid.Row="1">
+                            <ContentPresenter />
+                            <Grid
+                                Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                Opacity="0.8"
+                                Visibility="{Binding IsNocturneVisible, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneWay, Converter={StaticResource BoolToVisibility}, ConverterParameter=true}">
+                                <ContentPresenter Content="{TemplateBinding NocturneContent}" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

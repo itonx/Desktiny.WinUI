@@ -1,0 +1,102 @@
+name: Publish Desktiny NuGet package
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  # Default NuGet source; override with a secret if you push to a private feed
+  NUGET_SOURCE: https://api.nuget.org/v3/index.json
+  # Informational: the package targets Windows-only TFMs used in this repo
+  TARGET_FRAMEWORKS: net8.0-windows10.0.19041.0;net9.0-windows10.0.19041.0;net10.0-windows10.0.19041.0
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    # Only start this job when a PR was merged into the main branch
+    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' }}
+    env:
+      # will be set by the validation step if a matching tag is found
+      VERSION_TAG: ''
+
+    steps:
+      - name: Checkout repository (fetch tags)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Validate merge commit has version tag vX.Y.Z
+        shell: pwsh
+        env:
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+        run: |
+          if (-not $env:MERGE_SHA) {
+            Write-Host "No merge commit SHA available. Failing workflow."
+            exit 1
+          }
+          git fetch --tags --prune
+          $tags = git tag --points-at $env:MERGE_SHA
+          $versionTag = $tags | Where-Object { $_ -match '^v\d+\.\d+\.\d+$' } | Select-Object -First 1
+          if (-not $versionTag) {
+            Write-Host "No version tag of form vX.Y.Z found on merge commit $env:MERGE_SHA. Skipping publish."
+            exit 0
+          } else {
+            Write-Host "Found version tag $versionTag on merge commit. Continuing publish."
+            "VERSION_TAG=$versionTag" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          }
+
+      - name: Setup .NET 8 SDK
+        if: env.VERSION_TAG != ''
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Setup .NET 9 SDK
+        if: env.VERSION_TAG != ''
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Setup .NET 10 SDK
+        if: env.VERSION_TAG != ''
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore dependencies
+        if: env.VERSION_TAG != ''
+        shell: pwsh
+        run: dotnet restore
+
+      - name: Build (Release)
+        if: env.VERSION_TAG != ''
+        shell: pwsh
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Pack NuGet packages
+        if: env.VERSION_TAG != ''
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path .\nupkgs | Out-Null
+          dotnet pack --configuration Release --no-build --output .\nupkgs
+
+      - name: Push packages to NuGet
+        if: env.VERSION_TAG != ''
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_SOURCE: ${{ env.NUGET_SOURCE }}
+        run: |
+          Write-Host "Publishing $env:VERSION_TAG to $env:NUGET_SOURCE"
+          if (Test-Path .\nupkgs) {
+            Get-ChildItem .\nupkgs\*.nupkg -ErrorAction SilentlyContinue | ForEach-Object {
+              dotnet nuget push $_.FullName --api-key $env:NUGET_API_KEY --source $env:NUGET_SOURCE --skip-duplicate
+            }
+          } else {
+            Write-Host "No packages found in .\nupkgs"
+          }

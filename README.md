@@ -10,6 +10,14 @@ Boost your WinUI app development with the features offered by Desktiny.WinUI:
 
 These and more features are available in Desktiny.WinUI. Using this library will make you to focus on your app and forget about complicated initial setups.
 
+# Install the package
+You can install Desktiny.WinUI by using the NuGet UI included in Visual Studio or by using the next command:
+```bash
+dotnet add package Desktiny.WinUI --version 1.0.0
+```
+
+NuGet page: <a href="https://www.nuget.org/packages/Desktiny.WinUI/" target="_blank">Desktiny.WinUI</a>
+
 # Initial Setup
 
 Implement `IAppWindow` interface in `App.xaml.cs`:

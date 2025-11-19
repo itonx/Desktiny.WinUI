@@ -14,7 +14,10 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <ContentControl Canvas.ZIndex="1" Content="{TemplateBinding TitleBar}" />
+                        <ContentControl
+                            HorizontalContentAlignment="Stretch"
+                            Canvas.ZIndex="1"
+                            Content="{TemplateBinding TitleBar}" />
                         <Grid x:Name="ClientContainer" Grid.Row="1">
                             <ContentPresenter />
                             <Grid

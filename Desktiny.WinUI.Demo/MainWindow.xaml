@@ -16,6 +16,16 @@
 
     <!--  Replace default content with Winston  -->
     <winui:Winston IsNocturneVisible="False" MaximizeAtStartup="True">
+        <winui:Winston.TitleBar>
+            <TitleBar>
+                <TitleBar.LeftHeader>
+                    <TextBlock>TitleBar LeftHeader</TextBlock>
+                </TitleBar.LeftHeader>
+                <TitleBar.RightHeader>
+                    <TextBlock>TitleBar RightHeader</TextBlock>
+                </TitleBar.RightHeader>
+            </TitleBar>
+        </winui:Winston.TitleBar>
         <StackPanel
             Margin="0,50,0,0"
             HorizontalAlignment="Center"

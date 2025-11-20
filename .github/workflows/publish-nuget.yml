@@ -2,8 +2,6 @@ name: Publish Desktiny NuGet package
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*.*.*'
 

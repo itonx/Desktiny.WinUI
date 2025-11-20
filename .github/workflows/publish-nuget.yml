@@ -20,54 +20,18 @@ env:
 jobs:
   publish:
     runs-on: windows-latest
-
     steps:
-      - name: Checkout repository (fetch tags)
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          fetch-tags: true
-
-      - name: Setup .NET 8 SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 8.0.x
-
-      - name: Setup .NET 9 SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 9.0.x
-
-      - name: Setup .NET 10 SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 10.0.x
-
-      - name: Restore dependencies
-        shell: pwsh
-        run: dotnet restore
-
-      - name: Build (Release)
-        shell: pwsh
-        run: dotnet build --configuration Release --no-restore
-
-      - name: Pack NuGet packages
-        shell: pwsh
-        run: |
-          New-Item -ItemType Directory -Force -Path .\nupkgs | Out-Null
-          dotnet pack --configuration Release --no-build --output .\nupkgs
-
-      - name: Push packages to NuGet
-        shell: pwsh
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-          NUGET_SOURCE: ${{ env.NUGET_SOURCE }}
-        run: |
-          Write-Host "Publishing to $env:NUGET_SOURCE"
-          if (Test-Path .\nupkgs) {
-            Get-ChildItem .\nupkgs\*.nupkg -ErrorAction SilentlyContinue | ForEach-Object {
-              dotnet nuget push $_.FullName --api-key $env:NUGET_API_KEY --source $env:NUGET_SOURCE --skip-duplicate
-            }
-          } else {
-            Write-Host "No packages found in .\nupkgs"
-          }
+    - uses: actions/checkout@v5
+    - uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: |
+          8.0.x
+          9.0.x
+          10.0.x
+    - run: dotnet build Desktiny.WinUI
+    - name: Create the package
+      run: dotnet pack --configuration Release Desktiny.WinUI
+    - name: Publish the package to nuget.org
+      run: dotnet nuget push */bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}

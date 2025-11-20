@@ -1,3 +1,7 @@
+<p align='center'>
+    <img src="./assets/desktiny.png"/>
+</p>
+
 # Desktiny.WinUI
 
 Boost your WinUI app development with the features offered by Desktiny.WinUI:

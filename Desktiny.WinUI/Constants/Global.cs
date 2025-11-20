@@ -3,6 +3,7 @@
     public static class Global
     {
         public const string LANG_TREE = "Resources";
+        public const string LANG_KEY_FORMAT = "LangOption{0}/Content";
 
         public const string DIALOG_TITLE_DEFAULT = "DialogTitleDefault/Text";
         public const string DIALOG_CLOSE_DEFAULT = "DialogCloseDefault/Text";

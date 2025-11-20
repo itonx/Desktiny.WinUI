@@ -3,7 +3,9 @@
     x:Class="Desktiny.WinUI.Demo.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="using:Desktiny.WinUI.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Desktiny.WinUI.Demo"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Desktiny.WinUI"
@@ -37,11 +39,16 @@
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="10">
-                <Button Click="Button_Click">Show Yes/No dialog</Button>
-                <TextBlock VerticalAlignment="Center" Text="Result: " />
+                <Button x:Uid="ShowYesNoDialog" Click="Button_Click" />
+                <TextBlock x:Name="DiRe" x:Uid="DialogResult" VerticalAlignment="Center" />
                 <TextBlock x:Name="YesNoResult" VerticalAlignment="Center" />
             </StackPanel>
-            <Button Click="Button_Click_1">Show OK dialog</Button>
+            <Button x:Uid="ShowOkDialog" Click="Button_Click_1" />
+            <ComboBox>
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:ComboBoxChangeLanguageBehavior />
+                </interactivity:Interaction.Behaviors>
+            </ComboBox>
         </StackPanel>
         <winui:Winston.NocturneContent>
             <StackPanel
@@ -55,7 +62,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     IsIndeterminate="True" />
-                <TextBlock VerticalAlignment="Center" FontSize="30">Loading...</TextBlock>
+                <TextBlock
+                    x:Uid="Loading"
+                    VerticalAlignment="Center"
+                    FontSize="30" />
             </StackPanel>
         </winui:Winston.NocturneContent>
     </winui:Winston>

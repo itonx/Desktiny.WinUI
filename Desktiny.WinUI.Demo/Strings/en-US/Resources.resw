@@ -117,28 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DialogCloseDefault.Text" xml:space="preserve">
-    <value>Close</value>
+  <data name="DialogResult.Text" xml:space="preserve">
+    <value>Result:</value>
   </data>
-  <data name="DialogCloseNo.Text" xml:space="preserve">
-    <value>No</value>
+  <data name="Loading.Text" xml:space="preserve">
+    <value>Loading...</value>
   </data>
-  <data name="DialogCloseYes.Text" xml:space="preserve">
-    <value>Yes</value>
+  <data name="ShowOkDialog.Content" xml:space="preserve">
+    <value>Show OK dialog</value>
   </data>
-  <data name="DialogOKTest.Text" xml:space="preserve">
-    <value>This is a test message.</value>
-  </data>
-  <data name="DialogTest.Text" xml:space="preserve">
-    <value>This is a test message. Continue?</value>
-  </data>
-  <data name="DialogTitleDefault.Text" xml:space="preserve">
-    <value>Attention</value>
-  </data>
-  <data name="LangOptionEN-US.Content" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="LangOptionES-MX.Content" xml:space="preserve">
-    <value>Spanish</value>
+  <data name="ShowYesNoDialog.Content" xml:space="preserve">
+    <value>Show Yes/No dialog</value>
   </data>
 </root>

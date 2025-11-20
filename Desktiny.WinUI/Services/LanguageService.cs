@@ -5,12 +5,20 @@ namespace Desktiny.WinUI.Services
 {
     public interface ILanguageService
     {
+        IReadOnlyList<string> GetSupportedAppLanguages();
         IReadOnlyList<string> GetUserMachineSupportedLanguages();
         string GetLangValue(string resourceKey);
     }
 
+
     public class LanguageService : ILanguageService
     {
+        public IReadOnlyList<string> GetSupportedAppLanguages()
+        {
+
+            return Windows.Globalization.ApplicationLanguages.ManifestLanguages;
+        }
+
         public IReadOnlyList<string> GetUserMachineSupportedLanguages()
         {
             return Windows.Globalization.ApplicationLanguages.Languages;
@@ -36,13 +44,24 @@ namespace Desktiny.WinUI.Services
 
         public static string GetLangValue(string resourceKey)
         {
-            string appLangValue = _runningAppResourceMap?.GetValue(resourceKey).ValueAsString ?? string.Empty;
+            string appLangValue = _runningAppResourceMap?.GetValue(resourceKey)?.ValueAsString ?? string.Empty;
             if (string.IsNullOrEmpty(appLangValue))
             {
-                return _desktinyResourceMap.GetValue(resourceKey).ValueAsString ?? string.Empty;
+                return _desktinyResourceMap.GetValue(resourceKey)?.ValueAsString ?? string.Empty;
             }
 
             return appLangValue;
+        }
+
+        public static Dictionary<string, string> GetLangOptions()
+        {
+            Dictionary<string, string> langOptions = new();
+            foreach (var lang in Windows.Globalization.ApplicationLanguages.ManifestLanguages)
+            {
+                string langOptionValue = GetLangValue(string.Format(Constants.Global.LANG_KEY_FORMAT, lang.ToUpper()));
+                langOptions.Add(lang, langOptionValue);
+            }
+            return langOptions;
         }
     }
 }

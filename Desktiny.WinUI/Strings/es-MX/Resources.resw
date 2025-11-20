@@ -135,4 +135,10 @@
   <data name="DialogTitleDefault.Text" xml:space="preserve">
     <value>Atención</value>
   </data>
+  <data name="LangOptionEN-US.Content" xml:space="preserve">
+    <value>Inglés</value>
+  </data>
+  <data name="LangOptionES-MX.Content" xml:space="preserve">
+    <value>Español</value>
+  </data>
 </root>

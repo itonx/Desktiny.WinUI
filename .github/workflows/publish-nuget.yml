@@ -30,7 +30,7 @@ jobs:
     - name: Create the package
       run: dotnet pack --configuration Release Desktiny.WinUI
     - name: Publish the package to nuget.org
-      run: dotnet nuget push */bin/Release/*.nupkg --api-key $NUGET_AUTH_TOKEN --source https://api.nuget.org/v3/index.json
       shell: pwsh
       env:
         NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push */bin/Release/*.nupkg --api-key "${{ env.NUGET_AUTH_TOKEN }}" --source "https://api.nuget.org/v3/index.json"

@@ -1,5 +1,5 @@
 <p align='center'>
-    <img src="./assets/desktiny.png"/>
+    <img src="https://github.com/itonx/Desktiny.WinUI/tree/main/assets/desktiny.png"/>
 </p>
 
 # Desktiny.WinUI
@@ -15,7 +15,9 @@ Boost your WinUI app development with the features offered by Desktiny.WinUI:
 These and more features are available in Desktiny.WinUI. Using this library will make you to focus on your app and forget about complicated initial setups.
 
 # Install the package
+
 You can install Desktiny.WinUI by using the NuGet UI included in Visual Studio or by using the next command:
+
 ```bash
 dotnet add package Desktiny.WinUI --version 1.0.0
 ```
@@ -43,17 +45,18 @@ Add `Winston` in `MainWindow.xaml`:
 
 ```xml
 <Window x:Class="YourProject.MainWindow"
+    xmlns:desktiny="using:Desktiny.WinUI"
     ...>
 
     <!--Replace default content with Winston-->
-    <winui:Winston>
+    <desktiny:Winston>
         <TextBlock
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="20">
             Hello World!
         </TextBlock>
-    </winui:Winston>
+    </desktiny:Winston>
 
 </Window>
 ```
@@ -65,14 +68,14 @@ Add `Winston` in `MainWindow.xaml`:
 Set `MaximizeAtStartup` to `True`.
 
 ```xml
-    <winui:Winston MaximizeAtStartup="True">
+    <desktiny:Winston MaximizeAtStartup="True">
         <TextBlock
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="20">
             Hello World!
         </TextBlock>
-    </winui:Winston>
+    </desktiny:Winston>
 ```
 
 ## Nocturne
@@ -80,12 +83,12 @@ Set `MaximizeAtStartup` to `True`.
 `Winston` contains the `NocturneContent` property that you can use to display a control on top of your app. All the content in the window will reduce the opacity while `Nocturne` is visible. This is useful for scenarios that need to display a progress bar while loading stuff.
 
 ```xml
-<winui:Winston IsNocturneVisible="False" MaximizeAtStartup="True">
+<desktiny:Winston IsNocturneVisible="False" MaximizeAtStartup="True">
     <StackPanel>
         <!--  Window content here ...  -->
     </StackPanel>
     <!--  Nocturne  -->
-    <winui:Winston.NocturneContent>
+    <desktiny:Winston.NocturneContent>
         <StackPanel
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -99,20 +102,20 @@ Set `MaximizeAtStartup` to `True`.
                 IsIndeterminate="True" />
             <TextBlock VerticalAlignment="Center" FontSize="30">Loading...</TextBlock>
         </StackPanel>
-    </winui:Winston.NocturneContent>
-</winui:Winston>
+    </desktiny:Winston.NocturneContent>
+</desktiny:Winston>
 ```
 
 Set `IsNocturneVisible` to True/False to display or hide `Nocturne`.
 
-<img src="assets/NocturneHidden.png">
-<img src="assets/NocturneVisible.png">
+<img src="https://github.com/itonx/Desktiny.WinUI/tree/main/assets/NocturneHidden.png">
+<img src="https://github.com/itonx/Desktiny.WinUI/tree/main/assets/NocturneVisible.png">
 
 > The `IsNocturneVisible` property supports binding.
 
 ## Set up multi-language
 
-The next steps are required for all WinUI 3 applications that need to provide multi-language support. Some steps are described in [Localize your WinUI 3 app](https://learn.microsoft.com/en-us/windows/apps/winui/winui3/localize-winui3-app) however the full implementation is not there.
+The next steps are required for all WinUI 3 applications that need to provide multi-language support. Some steps are described in [Localize your WinUI 3 app](https://learn.microsoft.com/en-us/windows/apps/winui/winui3/localize-winui3-app). However, the full implementation is not there.
 
 The next steps will help you to support multi-language in your app.
 
@@ -148,20 +151,38 @@ Now, you can add all language entries in your `Resources.resw` files. Visual Stu
 
 If you're going to use the value in a `TextBlock`, a valid entry will look like this: `WelcomeMessage.Text`. In this example I use `Text` because that's the property used in WinUI to set the text in a `TextBlock`. Other components might use a different property to set the text. For example, a `Button` uses the `Content`, so the previous entry for a `Button` must be `WelcomeMessage.Content`.
 
-> Entries must be added in the `Resources.resw` file for each language. Otherwise, you app might display empty values for a language.
+> Entries must be added in the `Resources.resw` file for each language. Otherwise, your app might display empty values for a language.
 
-After setting up multi-language in your app, you can use one of the language classes that help you to manage multi-language in your code.
+Then, you can use these entries in your app by setting the `x:Uid` in the control where you want to use an entry. Following up the previous example for `WelcomeMessage.Text`, we can use the entry in a TextBlock as follows:
 
-### LanguageService
+```xml
+<TextBlock x:Uid="WelcomeMessage"/>
+```
 
-This class helps you to retrieve the entry language values added in your app, so that you can use them in your code.
+The same applies to `WelcomeMessage.Content` for a `Button`:
+
+```xml
+<Button x:Uid="WelcomeMessage" />
+```
+
+After setting up multi-language in your app, you can use one of the language classes included in Desktiny to use multi-language in code-behind.
+
+### LanguageService and LangService
+
+This classes help you to retrieve the language values added in your app, so that you can use them in code-behind.
 
 ```csharp
+string defaultTitle = LangService.GetLangValue("DialogTitleDefault/Text");
+
+//or
+
 LanguageServie languageService = new LanguageService();
 string defaultTitle = _languageService.GetLangValue("DialogTitleDefault/Text");
 
 //Later, you can use defaultTitle to set a control's text or bind a property
 ```
+
+> NOTE: Dots must be replaced by slashes when using an entry in code-behind. This is default behavior in WinUI 3.
 
 ### DialogLangService and DialogLang
 
@@ -169,13 +190,12 @@ These classes help you to display simple dialogs for Yes/No options and simple i
 
 ```csharp
 //Replace 'DialogTest/Text' with the entry in your Resources.resw
-//Dots must be replaced by slashes when using an entry in the code. This is default behavior in WinUI 3.
 bool continueProcess = await DialogLang.ShowYesNoAsync("DialogTest/Text");
 
 await DialogLang.ShowInformationAsync("DialogOKTest/Text");
 ```
 
-> `DialogLangService` must be instanciated.
+> `DialogLangService` contains the same methods but it has to be instanciated.
 
 The next entries are provided by default in `Desktiny.WinUI` for `en-US` and `es-MX` languages:
 
@@ -187,3 +207,36 @@ The next entries are provided by default in `Desktiny.WinUI` for `en-US` and `es
 - DialogOKTest.Text
 
 You can override the values by creating the same entries in the `Resources.resw` files of your project. Make sure you set up your app to support multi-language.
+
+### ComboBoxChangeLanguageBehavior
+
+This behavior can be attached to a ComboBox. It detects the languages added in your `Package.appxmanifest`. It will change the language of you app when a different language is selected. The app will restart after changing the language (this is required for WinUI 3 apps).
+
+You must add entry values for each language option in your `Resources.resw` files using the following naming convention: LangOptionEN-US/Content
+
+> `EN-US` must be replaced by the language you added in your app (in uppercase).
+
+Default languages included in Desktiny are: `en-US` and `es-MX`. The next entries are provided by default:
+
+- LangOptionEN-US.Content
+- LangOptionES-MX.Content
+
+The `ComboBoxChangeLanguageBehavior` will use the values from those entries to display the language in the ComboBox as options.
+
+Use behavior:
+
+```xml
+<Window
+    ...
+    xmlns:desktiny="using:Desktiny.WinUI"
+    xmlns:behaviors="using:Desktiny.WinUI.Behaviors"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity">
+    <desktiny:Winston>
+        <ComboBox>
+            <interactivity:Interaction.Behaviors>
+                <behaviors:ComboBoxChangeLanguageBehavior />
+            </interactivity:Interaction.Behaviors>
+        </ComboBox>
+    </desktiny:Winston>
+</Window>
+```

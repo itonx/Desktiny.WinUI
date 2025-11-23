@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Desktiny.WinUI.Demo.Resources">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light" />
+        <ResourceDictionary x:Key="Dark">
+            <!--  Override Default styles or add yours  -->
+            <SolidColorBrush x:Key="ApplicationForegroundThemeBrush" Color="#00FF05" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

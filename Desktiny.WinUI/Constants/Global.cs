@@ -11,5 +11,8 @@
         public const string DIALOG_CLOSE_YES = "DialogCloseYes/Text";
 
         public const string SETTINGS_LANG_KEY = "Settings.Lang";
+        public const string SETTINGS_THEME_KEY = "Settings.Theme";
+
+        public const string RESOURCE_PREFIX = "ms-appx:///";
     }
 }

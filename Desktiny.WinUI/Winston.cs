@@ -84,7 +84,7 @@ namespace Desktiny.WinUI
             nameof(AppTheme),
             typeof(AppThemeModel),
             typeof(Winston),
-            new PropertyMetadata(new AppThemeModel(ElementTheme.Default, null), OnAppThemeChanged));
+            new PropertyMetadata(new AppThemeModel(ElementTheme.Default), OnAppThemeChanged));
 
         private static void OnAppThemeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -152,7 +152,7 @@ namespace Desktiny.WinUI
             Grid container = this.GetWindowContainer();
             if (container == null) return;
             ResourceDictionary lastDictionary = Application.Current.Resources.MergedDictionaries.LastOrDefault(d => d.Source.AbsoluteUri.Contains("Theme.xaml"));
-            ElementTheme switchTo = appThemeModel.AppTheme == ElementTheme.Light ? ElementTheme.Dark : ElementTheme.Light;
+            ElementTheme switchTo = appThemeModel.ElementTheme == ElementTheme.Light ? ElementTheme.Dark : ElementTheme.Light;
 
             if (_removeLastThemeResource != null && (bool)_removeLastThemeResource && lastDictionary != null && lastDictionary.Source != null)
             {
@@ -170,7 +170,7 @@ namespace Desktiny.WinUI
             }
 
             container.RequestedTheme = switchTo;
-            container.RequestedTheme = appThemeModel.AppTheme;
+            container.RequestedTheme = appThemeModel.ElementTheme;
         }
 
         private void SetWindows()

@@ -4,6 +4,7 @@
     xmlns:converters="using:Desktiny.WinUI.Converters"
     xmlns:local="using:Desktiny.WinUI">
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+    <converters:ThemeToIconConverter x:Key="ThemeToIcon" />
 
     <Style TargetType="local:Winston">
         <Setter Property="Template">
@@ -32,4 +33,6 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="local:ThemeButton" />
 </ResourceDictionary>

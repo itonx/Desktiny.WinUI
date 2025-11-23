@@ -45,7 +45,7 @@ namespace Desktiny.WinUI.Services
             ContentDialog dialog = new ContentDialog();
 
             dialog.XamlRoot = mainWindow.Content.XamlRoot;
-            dialog.RequestedTheme = (mainWindow.Content as Winston).AppTheme.AppTheme;
+            dialog.RequestedTheme = (mainWindow.Content as Winston).AppTheme.ElementTheme;
             dialog.Title = title;
             dialog.PrimaryButtonText = primaryButtonText;
             dialog.DefaultButton = ContentDialogButton.Primary;

@@ -4,11 +4,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:behaviors="using:Desktiny.WinUI.Behaviors"
+    xmlns:converters="using:Desktiny.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:desktiny="using:Desktiny.WinUI"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Desktiny.WinUI.Demo"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:winui="using:Desktiny.WinUI"
     Title="Desktiny.WinUI.Demo"
     mc:Ignorable="d">
 
@@ -17,17 +18,36 @@
     </Window.SystemBackdrop>
 
     <!--  Replace default content with Winston  -->
-    <winui:Winston IsNocturneVisible="False" MaximizeAtStartup="True">
-        <winui:Winston.TitleBar>
+    <desktiny:Winston
+        x:Name="WinstonContainer"
+        AppTheme="{Binding CurrentAppTheme, Mode=OneWay}"
+        IsNocturneVisible="False"
+        MaximizeAtStartup="True">
+        <desktiny:Winston.TitleBar>
             <TitleBar>
                 <TitleBar.LeftHeader>
                     <TextBlock>TitleBar LeftHeader</TextBlock>
                 </TitleBar.LeftHeader>
                 <TitleBar.RightHeader>
-                    <TextBlock>TitleBar RightHeader</TextBlock>
+                    <StackPanel
+                        Margin="0,0,10,0"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="5">
+                        <StackPanel.Resources>
+                            <converters:ThemeToIconConverter x:Key="ThemeToIcon" />
+                        </StackPanel.Resources>
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
+                            Text="{Binding CurrentAppTheme.Name}" />
+                        <desktiny:ThemeButton AppTheme="{Binding CurrentAppTheme, Mode=TwoWay}">
+                            <FontIcon Glyph="{Binding CurrentAppTheme, Converter={StaticResource ThemeToIcon}, Mode=OneWay}" />
+                        </desktiny:ThemeButton>
+                    </StackPanel>
                 </TitleBar.RightHeader>
             </TitleBar>
-        </winui:Winston.TitleBar>
+        </desktiny:Winston.TitleBar>
         <StackPanel
             Margin="0,50,0,0"
             HorizontalAlignment="Center"
@@ -40,7 +60,10 @@
                 Orientation="Horizontal"
                 Spacing="10">
                 <Button x:Uid="ShowYesNoDialog" Click="Button_Click" />
-                <TextBlock x:Name="DiRe" x:Uid="DialogResult" VerticalAlignment="Center" />
+                <TextBlock
+                    x:Name="DiRe"
+                    x:Uid="DialogResult"
+                    VerticalAlignment="Center" />
                 <TextBlock x:Name="YesNoResult" VerticalAlignment="Center" />
             </StackPanel>
             <Button x:Uid="ShowOkDialog" Click="Button_Click_1" />
@@ -50,7 +73,7 @@
                 </interactivity:Interaction.Behaviors>
             </ComboBox>
         </StackPanel>
-        <winui:Winston.NocturneContent>
+        <desktiny:Winston.NocturneContent>
             <StackPanel
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -67,6 +90,6 @@
                     VerticalAlignment="Center"
                     FontSize="30" />
             </StackPanel>
-        </winui:Winston.NocturneContent>
-    </winui:Winston>
+        </desktiny:Winston.NocturneContent>
+    </desktiny:Winston>
 </Window>

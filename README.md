@@ -1,5 +1,5 @@
 <p align='center'>
-    <img src="https://github.com/itonx/Desktiny.WinUI/tree/main/assets/desktiny.png"/>
+    <img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/desktiny.png"/>
 </p>
 
 # Desktiny.WinUI
@@ -108,8 +108,8 @@ Set `MaximizeAtStartup` to `True`.
 
 Set `IsNocturneVisible` to True/False to display or hide `Nocturne`.
 
-<img src="https://github.com/itonx/Desktiny.WinUI/tree/main/assets/NocturneHidden.png">
-<img src="https://github.com/itonx/Desktiny.WinUI/tree/main/assets/NocturneVisible.png">
+<img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/NocturneHidden.png">
+<img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/NocturneVisible.png">
 
 > The `IsNocturneVisible` property supports binding.
 

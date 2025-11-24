@@ -119,6 +119,8 @@ The next steps are required for all WinUI 3 applications that need to provide mu
 
 The next steps will help you to support multi-language in your app.
 
+> Note: `Desktiny` will save the configuration for your app using the `Settings.Lang` key.
+
 Replace the `<Resource Language="x-generate"/>` with the supported languages for your app in `Package.appxmanifest`. For example:
 
 ```xml
@@ -240,3 +242,150 @@ Use behavior:
     </desktiny:Winston>
 </Window>
 ```
+
+# Set up themes
+
+The `AppThemeModel` was created to facilitate theme management.
+The next configuration works for a MVVM configuration. You can use a library like `CommunityToolkit.Mvvm` to set up your application for MVVM.
+
+> Note: `Desktiny` will save the configuration for your app using the `Settings.Theme` key.
+
+1. Add an `AppThemeModel` property in your view model (for binding).
+
+```csharp
+public partial class MainViewModel : ObservableObject
+{
+    //CommunityToolkit.Mvvm will create the `CurrentAppTheme` that can be used in XAML
+    [ObservableProperty]
+    private AppThemeModel _currentAppTheme;
+}
+```
+
+2. Create a list of `AppThemeModel`s and register them using `ThemeService.RegisterThemes`. This is the list of all themes that users can use in your app.
+
+> Note: Light and Dark themes are default themes in WinUI 3. If you need to override the default styles, add them to the list and provide the path of the resource dictionaries where you override the styles. `ThemeService.RegisterThemes` will add all themes sorted by name.
+
+```csharp
+public MainWindow()
+{
+    InitializeComponent();
+    List<AppThemeModel> themes = new()
+    {
+        new AppThemeModel("Light", ElementTheme.Light, "Resources/OverrideWinUITheme.xaml", "\uE793"),
+        new AppThemeModel("Dark", ElementTheme.Dark, "Resources/OverrideWinUITheme.xaml", "\uF0CE"),
+        new AppThemeModel("Neuromancer", ElementTheme.Dark, "Resources/NeuromancerTheme.xaml", "\uE950")
+    };
+    ThemeService.RegisterThemes(themes);
+}
+```
+
+The class `AppThemeModel` receives the next parameters:
+
+- Name: the name of your theme.
+- ElementTheme: the style of your theme (light or dark).
+  - ElementTheme is the default theme resource provided by WinUI 3. Desktiny extends the functionality that allows you to create custom themes. All themes must specify whether they're going to be in light style, dark style, or both.
+- Resource: the resource dictionary that contains the styles for your theme or override default styles. IMPORTANT: All theme dictionaries must end in `Theme.xaml`.
+- Icon: the string icon that can be use in a FontIcon.Glyph (this is used by the `ThemeButton` component provided by Desktiny).
+
+3. Use `ThemeService.GetTheme` to get the current theme for your app (the first time is executed, it will return the first theme in the list of `AppThemeModel`s) and set the property in your view model.
+
+```csharp
+public MainWindow()
+{
+    //...
+    ThemeService.RegisterThemes(themes);
+    AppThemeModel theme = ThemeService.GetTheme();
+    var vm = new MainViewModel();
+    vm.CurrentAppTheme = theme;
+
+    this.WinstonContainer.DataContext = vm;
+}
+```
+
+4. Use the view model's property to set the `AppTheme` property for `Winston`.
+
+> Note: All theme's resources are loaded by `Winston` every time the `AppTheme` is changed.
+
+```xml
+<desktiny:Winston AppTheme="{Binding CurrentAppTheme, Mode=OneWay}">
+<!--  More XALM here  -->
+</desktiny:Winston>
+```
+
+### Resources used for this example.
+
+Neuromancer:
+
+> Note: Notice `Neuromancer` was registered for dark theme only, so there's no implementation for light theme. Howerver, both keys are specified in the dictionary to align the design with WinUI 3's best practices.
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Desktiny.WinUI.Demo.Resources">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light" />
+        <ResourceDictionary x:Key="Dark">
+            <!--  Override Default styles or add yours  -->
+            <SolidColorBrush x:Key="ApplicationForegroundThemeBrush" Color="#00FF05" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>
+```
+
+Custom resource for Light/Dark themes (default WinUI 3). One dictionary can be used for light/dark default themes:
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Desktiny.WinUI.Demo.Resources">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <!--  Override Default styles for Light theme  -->
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <!--  Override Default styles for Dark theme  -->
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>
+
+```
+
+## ThemeButton control
+
+`Desktiny` provides the `ThemeButton` control to change the themes you registered for your app. Following up the previous configuration, you can use the view model's property to implement the control.
+
+> Note: `ThemeToIconConverter` is provided by `Desktiny` to set the icon for `FontIcon`.
+
+```xml
+<Window
+    ...
+    xmlns:behaviors="using:Desktiny.WinUI.Behaviors"
+    xmlns:converters="using:Desktiny.WinUI.Converters">
+    <StackPanel>
+        <StackPanel.Resources>
+            <converters:ThemeToIconConverter x:Key="ThemeToIcon" />
+        </StackPanel.Resources>
+        <TextBlock
+            VerticalAlignment="Center"
+            Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
+            Text="{Binding CurrentAppTheme.Name}" />
+        <desktiny:ThemeButton AppTheme="{Binding CurrentAppTheme, Mode=TwoWay}">
+            <FontIcon Glyph="{Binding CurrentAppTheme, Converter={StaticResource ThemeToIcon}, Mode=OneWay}" />
+        </desktiny:ThemeButton>
+    </StackPanel>
+</Window>
+```
+
+<p align='center'>
+    <img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/light.png"/>
+</p>
+<p align='center'>
+    <img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/dark.png"/>
+</p>
+<p align='center'>
+    <img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/neuromancer.png"/>
+</p>

@@ -14,7 +14,7 @@
     <PackageIcon>desktiny.png</PackageIcon>
     <PackageProjectUrl>https://github.com/itonx/Desktiny.WinUI</PackageProjectUrl>
     <PackageTags>WinUI3;WinUI 3;WinUI Library;Desktiny;WinUI</PackageTags>
-	<Version>1.0.5</Version>
+	<Version>1.0.6</Version>
 	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>

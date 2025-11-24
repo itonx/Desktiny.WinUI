@@ -26,7 +26,10 @@
         <desktiny:Winston.TitleBar>
             <TitleBar>
                 <TitleBar.LeftHeader>
-                    <TextBlock>TitleBar LeftHeader</TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <ImageIcon Source="/Assets/SmallTile.png" />
+                        <TextBlock VerticalAlignment="Center">Desktiny Demo</TextBlock>
+                    </StackPanel>
                 </TitleBar.LeftHeader>
                 <TitleBar.RightHeader>
                     <StackPanel
@@ -48,31 +51,11 @@
                 </TitleBar.RightHeader>
             </TitleBar>
         </desktiny:Winston.TitleBar>
-        <StackPanel
-            Margin="0,50,0,0"
-            HorizontalAlignment="Center"
-            Spacing="10">
-            <TextBlock FontSize="20">
-                Desktiny.WinUI
-            </TextBlock>
-            <StackPanel
-                VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="10">
-                <Button x:Uid="ShowYesNoDialog" Click="Button_Click" />
-                <TextBlock
-                    x:Name="DiRe"
-                    x:Uid="DialogResult"
-                    VerticalAlignment="Center" />
-                <TextBlock x:Name="YesNoResult" VerticalAlignment="Center" />
-            </StackPanel>
-            <Button x:Uid="ShowOkDialog" Click="Button_Click_1" />
-            <ComboBox>
-                <interactivity:Interaction.Behaviors>
-                    <behaviors:ComboBoxChangeLanguageBehavior />
-                </interactivity:Interaction.Behaviors>
-            </ComboBox>
-        </StackPanel>
+        <Frame>
+            <interactivity:Interaction.Behaviors>
+                <behaviors:EnumNavigationPageBehavior Target="{Binding CurrentPage, Mode=OneWay}" />
+            </interactivity:Interaction.Behaviors>
+        </Frame>
         <desktiny:Winston.NocturneContent>
             <StackPanel
                 HorizontalAlignment="Center"

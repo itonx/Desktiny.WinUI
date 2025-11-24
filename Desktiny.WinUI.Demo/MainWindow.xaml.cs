@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+using Desktiny.WinUI.Demo.ViewModels;
 using Desktiny.WinUI.Models;
 using Desktiny.WinUI.Services;
 using Microsoft.UI.Xaml;
@@ -14,43 +14,19 @@ namespace Desktiny.WinUI.Demo
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        private IList<AppThemeModel> themes = new List<AppThemeModel>()
+        {
+            new AppThemeModel("Light", ElementTheme.Light, "Resources/OverrideWinUITheme.xaml", "\uE793"),
+            new AppThemeModel("Dark", ElementTheme.Dark, "Resources/OverrideWinUITheme.xaml", "\uF0CE"),
+            new AppThemeModel("Neuromancer", ElementTheme.Dark, "Resources/NeuromancerTheme.xaml", "\uE950")
+        };
+
         public MainWindow()
         {
             InitializeComponent();
-            List<AppThemeModel> themes = new()
-            {
-                new AppThemeModel("Light", ElementTheme.Light, "Resources/OverrideWinUITheme.xaml", "\uE793"),
-                new AppThemeModel("Dark", ElementTheme.Dark, "Resources/OverrideWinUITheme.xaml", "\uF0CE"),
-                new AppThemeModel("Neuromancer", ElementTheme.Dark, "Resources/NeuromancerTheme.xaml", "\uE950")
-            };
             ThemeService.RegisterThemes(themes);
-            AppThemeModel theme = ThemeService.GetTheme();
             var vm = new MainViewModel();
-            vm.CurrentAppTheme = theme;
-
             this.WinstonContainer.DataContext = vm;
-        }
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            bool continueProcess = await DialogLang.ShowYesNoAsync("DialogTest/Text");
-            this.YesNoResult.Text = continueProcess.ToString();
-        }
-
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            await DialogLang.ShowInformationAsync("DialogOKTest/Text");
-        }
-    }
-
-    public partial class MainViewModel : ObservableObject
-    {
-        [ObservableProperty]
-        private AppThemeModel _currentAppTheme;
-
-        partial void OnCurrentAppThemeChanged(AppThemeModel value)
-        {
-            var v = value;
         }
     }
 }

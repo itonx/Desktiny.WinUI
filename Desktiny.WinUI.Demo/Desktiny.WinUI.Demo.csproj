@@ -15,6 +15,9 @@
   <ItemGroup>
     <None Remove="Resources\NeuromancerTheme.xaml" />
     <None Remove="Resources\OverrideWinUITheme.xaml" />
+    <None Remove="Views\BuyMeACoffeePage.xaml" />
+    <None Remove="Views\DemosPage.xaml" />
+    <None Remove="Views\WelcomePage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +26,6 @@
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
@@ -48,12 +50,27 @@
     <ProjectReference Include="..\Desktiny.WinUI\Desktiny.WinUI.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\BuyMeACoffeePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\DemosPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Resources\NeuromancerTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Resources\OverrideWinUITheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\WelcomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

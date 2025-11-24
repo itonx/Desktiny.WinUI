@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Desktiny.WinUI.Demo.Views.WelcomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Desktiny.WinUI.Demo.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Grid VerticalAlignment="Center">
+        <StackPanel HorizontalAlignment="Center" Spacing="10">
+            <Image
+                Width="200"
+                Height="200"
+                Source="/Assets/LargeTile.png" />
+            <TextBlock
+                x:Uid="WelcomeMessage"
+                HorizontalAlignment="Center"
+                FontSize="30"
+                Style="{ThemeResource BodyLargeStrongTextBlockStyle}" />
+            <StackPanel
+                HorizontalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+                <Button Command="{Binding GoToDemosPageCommand}">Demos</Button>
+                <Button Command="{Binding GoToBuyMeACoffeePageCommand}">Buy me a coffee</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

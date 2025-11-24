@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="Desktiny.WinUI.Demo.Views.DemosPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="using:Desktiny.WinUI.Behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:local="using:Desktiny.WinUI.Demo.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <StackPanel
+            Margin="0,50,0,0"
+            HorizontalAlignment="Center"
+            Spacing="10">
+            <TextBlock FontSize="20">
+                Demos
+            </TextBlock>
+            <Button x:Uid="GoBack" Click="Button_Click_2"/>
+            <StackPanel
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+                <Button x:Uid="ShowYesNoDialog" Click="Button_Click" />
+                <TextBlock
+                    x:Name="DiRe"
+                    x:Uid="DialogResult"
+                    VerticalAlignment="Center" />
+                <TextBlock x:Name="YesNoResult" VerticalAlignment="Center" />
+            </StackPanel>
+            <Button x:Uid="ShowOkDialog" Click="Button_Click_1" />
+            <ComboBox>
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:ComboBoxChangeLanguageBehavior />
+                </interactivity:Interaction.Behaviors>
+            </ComboBox>
+        </StackPanel>
+    </Grid>
+</Page>

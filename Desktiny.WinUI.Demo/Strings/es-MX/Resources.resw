@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BuyMeACoffeeMessage.Text" xml:space="preserve">
+    <value>Puedes apoyar este proyecto haciendo una donación en mi página de Buy me a coffee</value>
+  </data>
   <data name="DialogResult.Text" xml:space="preserve">
     <value>Resultado:</value>
+  </data>
+  <data name="GoBack.Content" xml:space="preserve">
+    <value>Regresar</value>
   </data>
   <data name="Loading.Text" xml:space="preserve">
     <value>Cargando...</value>
@@ -128,5 +134,8 @@
   </data>
   <data name="ShowYesNoDialog.Content" xml:space="preserve">
     <value>Mostrar mensaje Si/No</value>
+  </data>
+  <data name="WelcomeMessage.Text" xml:space="preserve">
+    <value>Página de bienvenida</value>
   </data>
 </root>

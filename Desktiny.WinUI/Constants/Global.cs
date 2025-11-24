@@ -14,5 +14,7 @@
         public const string SETTINGS_THEME_KEY = "Settings.Theme";
 
         public const string RESOURCE_PREFIX = "ms-appx:///";
+
+        public const string TITLE_BAR_BUTTON_BACKGROUND_KEY = "ApplicationPageBackgroundThemeBrush";
     }
 }

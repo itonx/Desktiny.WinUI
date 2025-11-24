@@ -1,4 +1,5 @@
 using Desktiny.WinUI.Behaviors;
+using Desktiny.WinUI.Extensions;
 using Desktiny.WinUI.Models;
 using Desktiny.WinUI.Tools;
 using Microsoft.UI;
@@ -171,7 +172,6 @@ namespace Desktiny.WinUI
 
         private void Container_ActualThemeChanged(FrameworkElement sender, object args)
         {
-            Grid container = sender as Grid;
             ChangeTitleBarButtonStyle();
         }
 
@@ -179,16 +179,36 @@ namespace Desktiny.WinUI
         {
             if (EnableTitleBarThemeButtons)
             {
-                string themeKey = this.AppTheme.ElementTheme == ElementTheme.Light ? "Light" : "Default";
-                var resourceFound = ((ResourceDictionary)Application.Current.Resources.MergedDictionaries.FirstOrDefault(d => d.ThemeDictionaries.Count > 1).ThemeDictionaries[themeKey]).TryGetValue("ApplicationPageBackgroundThemeBrush", out object resourceValue);
-                if (resourceFound && resourceValue is SolidColorBrush backgroundValue)
+                try
                 {
-                    this.AppWindow.TitleBar.ButtonBackgroundColor = backgroundValue.Color;
-                    this.AppWindow.TitleBar.ButtonInactiveBackgroundColor = backgroundValue.Color;
+                    string defaultThemeKey = this.AppTheme.ElementTheme.GetThemeKeyFromDefault();
+
+                    ResourceDictionary lastDictionary = Application.Current.Resources.GetCustomResource().GetThemeDictionary(this.AppTheme.ElementTheme.ToString());
+
+                    var lastDictionaryKeys = lastDictionary
+                        .Keys
+                        .Select((value, index) => new { Key = value, Value = index })
+                        .ToDictionary(i => i.Key, i => i.Value);
+
+                    Application.Current.Resources.GetResourceByType(typeof(XamlControlsResources)).GetThemeDictionary(defaultThemeKey)
+                        .TryGetValue(Constants.Global.TITLE_BAR_BUTTON_BACKGROUND_KEY, out object resourceValue);
+
+                    if (resourceValue is SolidColorBrush backgroundValue)
+                    {
+                        lastDictionary.TryGetValue(Constants.Global.TITLE_BAR_BUTTON_BACKGROUND_KEY, out object customBackground);
+                        SolidColorBrush customBackgroundValue = lastDictionaryKeys.ContainsKey(Constants.Global.TITLE_BAR_BUTTON_BACKGROUND_KEY) ? customBackground as SolidColorBrush : null;
+
+                        Color color = customBackgroundValue != null && customBackgroundValue.Color != backgroundValue.Color ? customBackgroundValue.Color : backgroundValue.Color;
+                        this.AppWindow.TitleBar.ButtonBackgroundColor = color;
+                        this.AppWindow.TitleBar.ButtonInactiveBackgroundColor = color;
+                    }
                 }
-                this.AppWindow.TitleBar.ButtonHoverBackgroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Color.FromArgb(50, 0, 0, 0) : Color.FromArgb(50, 255, 255, 255);
-                this.AppWindow.TitleBar.ButtonHoverForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
-                this.AppWindow.TitleBar.ButtonForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+                finally
+                {
+                    this.AppWindow.TitleBar.ButtonHoverBackgroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Color.FromArgb(50, 0, 0, 0) : Color.FromArgb(50, 255, 255, 255);
+                    this.AppWindow.TitleBar.ButtonHoverForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+                    this.AppWindow.TitleBar.ButtonForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+                }
             }
         }
 

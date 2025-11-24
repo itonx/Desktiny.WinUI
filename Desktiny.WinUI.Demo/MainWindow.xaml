@@ -44,7 +44,7 @@
                         </StackPanel.Resources>
                         <TextBlock
                             VerticalAlignment="Center"
-                            Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
+                            Foreground="{ThemeResource TextFillColorPrimary}"
                             Text="{Binding CurrentAppTheme.Name}" />
                         <desktiny:ThemeButton AppTheme="{Binding CurrentAppTheme, Mode=TwoWay}">
                             <FontIcon Glyph="{Binding CurrentAppTheme, Converter={StaticResource ThemeToIcon}, Mode=OneWay}" />

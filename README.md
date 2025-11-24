@@ -342,7 +342,7 @@ Neuromancer:
         <ResourceDictionary x:Key="Light" />
         <ResourceDictionary x:Key="Dark">
             <!--  Override Default styles or add yours  -->
-            <SolidColorBrush x:Key="ApplicationForegroundThemeBrush" Color="#00FF05" />
+            <SolidColorBrush x:Key="TextFillColorPrimary" Color="#00FF05" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
@@ -385,7 +385,7 @@ Custom resource for Light/Dark themes (default WinUI 3). One dictionary can be u
         </StackPanel.Resources>
         <TextBlock
             VerticalAlignment="Center"
-            Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
+            Foreground="{ThemeResource TextFillColorPrimary}"
             Text="{Binding CurrentAppTheme.Name}" />
         <desktiny:ThemeButton AppTheme="{Binding CurrentAppTheme, Mode=TwoWay}">
             <FontIcon Glyph="{Binding CurrentAppTheme, Converter={StaticResource ThemeToIcon}, Mode=OneWay}" />

@@ -7,7 +7,8 @@
         <ResourceDictionary x:Key="Light" />
         <ResourceDictionary x:Key="Dark">
             <!--  Override Default styles or add yours  -->
-            <SolidColorBrush x:Key="ApplicationForegroundThemeBrush" Color="#00FF05" />
+            <SolidColorBrush x:Key="TextFillColorPrimary" Color="#00FF05" />
+            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="Black" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

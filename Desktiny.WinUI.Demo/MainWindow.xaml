@@ -21,7 +21,7 @@
     <desktiny:Winston
         x:Name="WinstonContainer"
         AppTheme="{Binding CurrentAppTheme, Mode=OneWay}"
-        EnableTitleBarTransparentButtons="True"
+        EnableTitleBarThemeButtons="True"
         IconPath="/Assets/SmallTile.png"
         IsNocturneVisible="False"
         MaximizeAtStartup="True">

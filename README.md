@@ -113,6 +113,18 @@ Set `IsNocturneVisible` to True/False to display or hide `Nocturne`.
 
 > The `IsNocturneVisible` property supports binding.
 
+## EnableTitleBarTransparentButtons
+
+WinUI 3 sets the style for the TitleBar buttons based on the `Accent` style for your Windows. You can make enable `EnableTitleBarTransparentButtons` to disable the `Accent` style.
+
+Default `Accent` style:
+
+<img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/titlebar_accent.png">
+
+`EnableTitleBarTransparentButtons` style:
+
+<img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/titlebar_accent.png">
+
 ## Set up multi-language
 
 The next steps are required for all WinUI 3 applications that need to provide multi-language support. Some steps are described in [Localize your WinUI 3 app](https://learn.microsoft.com/en-us/windows/apps/winui/winui3/localize-winui3-app). However, the full implementation is not there.

@@ -138,16 +138,16 @@ namespace Desktiny.WinUI
             set { SetValue(IconPathProperty, value); }
         }
 
-        public static readonly DependencyProperty EnableTitleBarTransparentButtonsProperty = DependencyProperty.Register(
-            "EnableTitleBarTransparentButtons",
+        public static readonly DependencyProperty EnableTitleBarThemeButtonsProperty = DependencyProperty.Register(
+            "EnableTitleBarThemeButtons",
             typeof(bool),
             typeof(Winston),
             new PropertyMetadata(false));
 
-        public bool EnableTitleBarTransparentButtons
+        public bool EnableTitleBarThemeButtons
         {
-            get { return (bool)GetValue(EnableTitleBarTransparentButtonsProperty); }
-            set { SetValue(EnableTitleBarTransparentButtonsProperty, value); }
+            get { return (bool)GetValue(EnableTitleBarThemeButtonsProperty); }
+            set { SetValue(EnableTitleBarThemeButtonsProperty, value); }
         }
 
         public Winston()
@@ -166,24 +166,30 @@ namespace Desktiny.WinUI
             {
                 this.AppWindow.SetIcon(bitmapImage.UriSource.LocalPath);
             }
-            if (EnableTitleBarTransparentButtons)
-            {
-                if (Application.Current.Resources.TryGetValue("ApplicationPageBackgroundThemeBrush", out object resource) && resource is SolidColorBrush backgroundBrush)
-                {
-                    this.AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                }
-                this.AppWindow.TitleBar.ButtonHoverBackgroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Color.FromArgb(50, 0, 0, 0) : Color.FromArgb(50, 255, 255, 255);
-                this.AppWindow.TitleBar.ButtonHoverForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
-                this.AppWindow.TitleBar.ButtonForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
-            }
+            ChangeTitleBarButtonStyle();
         }
 
         private void Container_ActualThemeChanged(FrameworkElement sender, object args)
         {
             Grid container = sender as Grid;
-            this.MainWindow.AppWindow.TitleBar.ButtonHoverBackgroundColor = container.RequestedTheme == ElementTheme.Light ? Color.FromArgb(50, 0, 0, 0) : Color.FromArgb(50, 255, 255, 255);
-            this.MainWindow.AppWindow.TitleBar.ButtonHoverForegroundColor = container.RequestedTheme == ElementTheme.Light ? Colors.Black : Colors.White;
-            this.MainWindow.AppWindow.TitleBar.ButtonForegroundColor = container.RequestedTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+            ChangeTitleBarButtonStyle();
+        }
+
+        private void ChangeTitleBarButtonStyle()
+        {
+            if (EnableTitleBarThemeButtons)
+            {
+                string themeKey = this.AppTheme.ElementTheme == ElementTheme.Light ? "Light" : "Default";
+                var resourceFound = ((ResourceDictionary)Application.Current.Resources.MergedDictionaries.FirstOrDefault(d => d.ThemeDictionaries.Count > 1).ThemeDictionaries[themeKey]).TryGetValue("ApplicationPageBackgroundThemeBrush", out object resourceValue);
+                if (resourceFound && resourceValue is SolidColorBrush backgroundValue)
+                {
+                    this.AppWindow.TitleBar.ButtonBackgroundColor = backgroundValue.Color;
+                    this.AppWindow.TitleBar.ButtonInactiveBackgroundColor = backgroundValue.Color;
+                }
+                this.AppWindow.TitleBar.ButtonHoverBackgroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Color.FromArgb(50, 0, 0, 0) : Color.FromArgb(50, 255, 255, 255);
+                this.AppWindow.TitleBar.ButtonHoverForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+                this.AppWindow.TitleBar.ButtonForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+            }
         }
 
         private void SetApptheme(AppThemeModel appThemeModel)

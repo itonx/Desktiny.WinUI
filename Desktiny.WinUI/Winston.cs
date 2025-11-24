@@ -5,6 +5,8 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.Xaml.Interactivity;
 using System.Linq;
 using Windows.UI;
@@ -124,6 +126,30 @@ namespace Desktiny.WinUI
             set { SetValue(NocturneContentProperty, value); }
         }
 
+        public static readonly DependencyProperty IconPathProperty = DependencyProperty.Register(
+            "IconPath",
+            typeof(ImageSource),
+            typeof(Winston),
+            new PropertyMetadata(null));
+
+        public ImageSource IconPath
+        {
+            get { return (ImageSource)GetValue(IconPathProperty); }
+            set { SetValue(IconPathProperty, value); }
+        }
+
+        public static readonly DependencyProperty EnableTitleBarTransparentButtonsProperty = DependencyProperty.Register(
+            "EnableTitleBarTransparentButtons",
+            typeof(bool),
+            typeof(Winston),
+            new PropertyMetadata(false));
+
+        public bool EnableTitleBarTransparentButtons
+        {
+            get { return (bool)GetValue(EnableTitleBarTransparentButtonsProperty); }
+            set { SetValue(EnableTitleBarTransparentButtonsProperty, value); }
+        }
+
         public Winston()
         {
             this.DefaultStyleKey = typeof(Winston);
@@ -136,6 +162,20 @@ namespace Desktiny.WinUI
             Grid container = this.GetWindowContainer();
             container.ActualThemeChanged += Container_ActualThemeChanged;
             SetApptheme(AppTheme);
+            if (IconPath is BitmapImage bitmapImage)
+            {
+                this.AppWindow.SetIcon(bitmapImage.UriSource.LocalPath);
+            }
+            if (EnableTitleBarTransparentButtons)
+            {
+                if (Application.Current.Resources.TryGetValue("ApplicationPageBackgroundThemeBrush", out object resource) && resource is SolidColorBrush backgroundBrush)
+                {
+                    this.AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                }
+                this.AppWindow.TitleBar.ButtonHoverBackgroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Color.FromArgb(50, 0, 0, 0) : Color.FromArgb(50, 255, 255, 255);
+                this.AppWindow.TitleBar.ButtonHoverForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+                this.AppWindow.TitleBar.ButtonForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+            }
         }
 
         private void Container_ActualThemeChanged(FrameworkElement sender, object args)

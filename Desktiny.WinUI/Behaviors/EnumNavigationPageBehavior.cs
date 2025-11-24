@@ -20,8 +20,8 @@ namespace Desktiny.WinUI.Behaviors
         {
             if (e.NewValue == null) return;
             Frame appContainer = d.GetDependencyObjectFromBehavior<Frame>();
-            Enum appState = (Enum)e.NewValue;
-            appContainer.Navigate(appState.GetAttribute<PageTypeAttribute>().PageType);
+            Enum appPage = (Enum)e.NewValue;
+            appContainer.Navigate(appPage.GetAttribute<PageTypeAttribute>().PageType);
         }
 
         public object Target

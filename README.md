@@ -330,7 +330,7 @@ public MainWindow()
 
 Neuromancer:
 
-> Note: Notice `Neuromancer` was registered for dark theme only, so there's no implementation for light theme. Howerver, both keys are specified in the dictionary to align the design with WinUI 3's best practices.
+> Note: Notice `Neuromancer` was registered for dark theme only, so there's no implementation for light theme. However, both keys are specified in the dictionary to align the design with WinUI 3's best practices.
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>

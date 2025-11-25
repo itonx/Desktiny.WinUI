@@ -123,7 +123,7 @@ Default `Accent` style:
 
 `EnableTitleBarThemeButtons` style:
 
-> Note: It uses WinUI's `ApplicationPageBackgroundThemeBrush` background.
+> Note: It uses the background set in the `TitleBar`.
 
 <img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/titlebar_theme.png">
 

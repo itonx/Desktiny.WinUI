@@ -1,4 +1,5 @@
-using Desktiny.WinUI.Demo.Models;
+using Desktiny.WinUI.Demo.Enums;
+using Desktiny.WinUI.EventMessages;
 using Desktiny.WinUI.Managers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -20,7 +21,7 @@ namespace Desktiny.WinUI.Demo.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            EventManager.Publish(new DestinyPageMessage(Enums.DesktinyPages.Welcome));
+            EventManager.Publish(new EnumNavigation(DesktinyPages.Welcome));
         }
     }
 }

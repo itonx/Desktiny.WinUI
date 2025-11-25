@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Desktiny.WinUI.Demo.Enums;
-using Desktiny.WinUI.Demo.Models;
+using Desktiny.WinUI.EventMessages;
 using Desktiny.WinUI.Managers;
 using Desktiny.WinUI.Models;
 using Desktiny.WinUI.Services;
@@ -37,12 +37,12 @@ namespace Desktiny.WinUI.Demo.ViewModels
 
         private void RegisterEvents()
         {
-            EventManager.Subscribe<DestinyPageMessage>(this, OnDesktinyPageMessage);
+            EventManager.Subscribe<EnumNavigation>(this, OnDesktinyPageMessage);
         }
 
-        private void OnDesktinyPageMessage(DestinyPageMessage message)
+        private void OnDesktinyPageMessage(EnumNavigation enumNavigation)
         {
-            this.CurrentPage = message.DesktinyPage;
+            this.CurrentPage = enumNavigation.Page;
         }
     }
 }

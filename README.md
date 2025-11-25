@@ -127,6 +127,90 @@ Default `Accent` style:
 
 <img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/titlebar_theme.png">
 
+## Page navigation
+
+`Desktiny` allows you to bind an enum to a `Frame` control, so that you can control the Frame's navigation by using an Enum property in your view model. Frames work with Pages, so make sure you use a Page instead of a UserControl.
+
+1. Create an enum with the pages that will be available for the app. Each value in the enum must specify the `PageType` for the page that will be displayed once you select enum value.
+
+```csharp
+public enum DesktinyPages
+{
+    [PageType(typeof(WelcomePage))]
+    Welcome,
+    [PageType(typeof(DemosPage))]
+    Demos,
+    [PageType(typeof(BuyMeACoffeePage))]
+    BuyMeACoffee,
+}
+```
+
+2. Set up your view model.
+
+```csharp
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Desktiny.WinUI.Demo.Enums;
+using Desktiny.WinUI.EventMessages;
+using Desktiny.WinUI.Managers;
+using Desktiny.WinUI.Models;
+using Desktiny.WinUI.Services;
+using System;
+
+namespace Desktiny.WinUI.Demo.ViewModels
+{
+    public partial class MainViewModel : ObservableObject
+    {
+        //MVVM property
+        [ObservableProperty]
+        private Enum _currentPage;
+
+        public MainViewModel()
+        {
+            //Default page
+            CurrentPage = DesktinyPages.Welcome;
+            //Subscribe vm to receive EnumNavigation messages
+            EventManager.Subscribe<EnumNavigation>(this, OnDesktinyPageMessage);
+        }
+
+        //Receive message and set CurrentPage
+        private void OnDesktinyPageMessage(EnumNavigation enumNavigation)
+        {
+            this.CurrentPage = enumNavigation.Page;
+        }
+    }
+}
+```
+
+3. Use `EnumNavigationPageBehavior` in an existing `Frame` and bind the property created in your view model.
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<Window
+    ...
+    xmlns:behaviors="using:Desktiny.WinUI.Behaviors"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:desktiny="using:Desktiny.WinUI">
+    <desktiny:Winston>
+        <Frame>
+            <interactivity:Interaction.Behaviors>
+                <behaviors:EnumNavigationPageBehavior Target="{Binding CurrentPage, Mode=OneWay}" />
+            </interactivity:Interaction.Behaviors>
+        </Frame>
+    </desktiny:Winston>
+</Window>
+```
+
+4. Change the page by sending an `EnumNavigation` message using the `EventManager.Publish` method.
+
+```csharp
+private void Button_GoToPage_Click(object sender, RoutedEventArgs e)
+{
+    //DesktinyPages.BuyMeACoffee <- target page
+    EventManager.Publish(new EnumNavigation(DesktinyPages.BuyMeACoffee));
+}
+```
+
 ## Set up multi-language
 
 The next steps are required for all WinUI 3 applications that need to provide multi-language support. Some steps are described in [Localize your WinUI 3 app](https://learn.microsoft.com/en-us/windows/apps/winui/winui3/localize-winui3-app). However, the full implementation is not there.

@@ -5,7 +5,6 @@ using Desktiny.WinUI.EventMessages;
 using Desktiny.WinUI.Managers;
 using Desktiny.WinUI.Models;
 using Desktiny.WinUI.Services;
-using System;
 
 namespace Desktiny.WinUI.Demo.ViewModels
 {
@@ -14,7 +13,7 @@ namespace Desktiny.WinUI.Demo.ViewModels
         [ObservableProperty]
         private AppThemeModel _currentAppTheme;
         [ObservableProperty]
-        private Enum _currentPage;
+        private DesktinyPages _currentPage;
 
         public MainViewModel()
         {
@@ -42,7 +41,7 @@ namespace Desktiny.WinUI.Demo.ViewModels
 
         private void OnDesktinyPageMessage(EnumNavigation enumNavigation)
         {
-            this.CurrentPage = enumNavigation.Page;
+            this.CurrentPage = (DesktinyPages)enumNavigation.Page;
         }
     }
 }

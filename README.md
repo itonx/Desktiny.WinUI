@@ -163,7 +163,7 @@ namespace Desktiny.WinUI.Demo.ViewModels
     {
         //MVVM property
         [ObservableProperty]
-        private Enum _currentPage;
+        private DesktinyPages _currentPage;
 
         public MainViewModel()
         {
@@ -176,7 +176,7 @@ namespace Desktiny.WinUI.Demo.ViewModels
         //Receive message and set CurrentPage
         private void OnDesktinyPageMessage(EnumNavigation enumNavigation)
         {
-            this.CurrentPage = enumNavigation.Page;
+            this.CurrentPage = (DesktinyPages)enumNavigation.Page;
         }
     }
 }

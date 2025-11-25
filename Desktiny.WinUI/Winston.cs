@@ -178,8 +178,11 @@ namespace Desktiny.WinUI
         {
             if (EnableTitleBarThemeButtons)
             {
-                this.AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                this.AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                if (this.TitleBar.Background is SolidColorBrush titleBarBackground)
+                {
+                    this.AppWindow.TitleBar.ButtonBackgroundColor = titleBarBackground.Color;
+                    this.AppWindow.TitleBar.ButtonInactiveBackgroundColor = titleBarBackground.Color;
+                }
                 this.AppWindow.TitleBar.ButtonHoverBackgroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Color.FromArgb(50, 0, 0, 0) : Color.FromArgb(50, 255, 255, 255);
                 this.AppWindow.TitleBar.ButtonHoverForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
                 this.AppWindow.TitleBar.ButtonForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;

@@ -17,7 +17,7 @@ These and more features are available in Desktiny. Using this library will make 
 ## Apps created with Desktiny
 
 <p align='center'>
-    <img width="250" src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/ShelterVault.png"/>
+    <img width="140" src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/ShelterVault.png"/>
 </p>
 
 <p align="center">

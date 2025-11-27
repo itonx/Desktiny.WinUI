@@ -30,7 +30,7 @@
                 <TitleBar.LeftHeader>
                     <StackPanel Orientation="Horizontal">
                         <ImageIcon Source="/Assets/SmallTile.png" />
-                        <TextBlock VerticalAlignment="Center">Desktiny Demo</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Foreground="{ThemeResource TextFillColorPrimary}">Desktiny Demo</TextBlock>
                     </StackPanel>
                 </TitleBar.LeftHeader>
                 <TitleBar.RightHeader>
@@ -47,7 +47,7 @@
                             Foreground="{ThemeResource TextFillColorPrimary}"
                             Text="{Binding CurrentAppTheme.Name}" />
                         <desktiny:ThemeButton AppTheme="{Binding CurrentAppTheme, Mode=TwoWay}">
-                            <FontIcon Glyph="{Binding CurrentAppTheme, Converter={StaticResource ThemeToIcon}, Mode=OneWay}" />
+                            <FontIcon Foreground="{ThemeResource TextFillColorPrimary}" Glyph="{Binding CurrentAppTheme, Converter={StaticResource ThemeToIcon}, Mode=OneWay}" />
                         </desktiny:ThemeButton>
                     </StackPanel>
                 </TitleBar.RightHeader>

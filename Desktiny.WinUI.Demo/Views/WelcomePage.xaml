@@ -7,6 +7,7 @@
     xmlns:local="using:Desktiny.WinUI.Demo.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Foreground="{ThemeResource TextFillColorPrimary}"
     mc:Ignorable="d">
 
     <Grid VerticalAlignment="Center">
@@ -24,8 +25,8 @@
                 HorizontalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="10">
-                <Button Command="{Binding GoToDemosPageCommand}">Demos</Button>
-                <Button Command="{Binding GoToBuyMeACoffeePageCommand}">Buy me a coffee</Button>
+                <Button Command="{Binding GoToDemosPageCommand}" Foreground="{ThemeResource TextFillColorPrimary}">Demos</Button>
+                <Button Command="{Binding GoToBuyMeACoffeePageCommand}" Foreground="{ThemeResource TextFillColorPrimary}">Buy me a coffee</Button>
             </StackPanel>
         </StackPanel>
     </Grid>

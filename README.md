@@ -14,11 +14,11 @@
 
 Boost your WinUI app development with the features offered by Desktiny:
 
-- Quick navigation setup.
-- Add an option to change the theme of your app at runtime.
-- Fast setup for multi-language apps.
-- Add a progress bar or a custom control in front of the app content.
-- Simple dialog service ready to use.
+- Set up quick navigation.
+- Change your app's theme at runtime.
+- Set up multi-language support quickly.
+- Add a progress bar or custom control in front of your app's content.
+- Use a simple, ready-to-use dialog service for multi-language apps.
 
 These and more features are available in Desktiny. Using this library will make you to focus on your app and forget about complicated initial setups.
 

@@ -1,6 +1,14 @@
 <p align='center'>
     <img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/desktiny.png"/>
 </p>
+<p align="center">
+  <a href="https://github.com/itonx/Desktiny.WinUI/actions/workflows/publish-nuget.yml" target="_blank"><img src="https://github.com/itonx/Desktiny.WinUI/actions/workflows/publish-nuget.yml/badge.svg"/></a>
+</p>
+<p align="center">
+	<a href="https://img.shields.io/nuget/v/Desktiny.WinUI">
+		<img alt="NuGet Version" src="https://img.shields.io/nuget/v/Desktiny.WinUI">
+	</a>
+</p>
 
 # Desktiny
 
@@ -31,8 +39,6 @@ You can install Desktiny by using the NuGet UI included in Visual Studio or by u
 ```bash
 dotnet add package Desktiny.WinUI --version 1.0.10
 ```
-
-NuGet package: <a href="https://www.nuget.org/packages/Desktiny.WinUI/" target="_blank">Desktiny.WinUI</a>
 
 # Initial Setup
 

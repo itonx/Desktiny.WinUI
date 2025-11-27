@@ -2,9 +2,9 @@
     <img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/desktiny.png"/>
 </p>
 
-# Desktiny.WinUI
+# Desktiny
 
-Boost your WinUI app development with the features offered by Desktiny.WinUI:
+Boost your WinUI app development with the features offered by Desktiny:
 
 - Quick navigation setup.
 - Add an option to change the theme of your app at runtime.
@@ -12,17 +12,27 @@ Boost your WinUI app development with the features offered by Desktiny.WinUI:
 - Add a progress bar or a custom control in front of the app content.
 - Simple dialog service ready to use.
 
-These and more features are available in Desktiny.WinUI. Using this library will make you to focus on your app and forget about complicated initial setups.
+These and more features are available in Desktiny. Using this library will make you to focus on your app and forget about complicated initial setups.
+
+## Apps created with Desktiny
+
+<p align='center'>
+    <img width="250" src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/ShelterVault.png"/>
+</p>
+
+<p align="center">
+	<a target="_blank" href="https://github.com/itonx/ShelterVault"><strong>ShelterVault</strong></a>
+</p>
 
 # Install the package
 
-You can install Desktiny.WinUI by using the NuGet UI included in Visual Studio or by using the next command:
+You can install Desktiny by using the NuGet UI included in Visual Studio or by using the next command:
 
 ```bash
-dotnet add package Desktiny.WinUI --version 1.0.0
+dotnet add package Desktiny.WinUI --version 1.0.10
 ```
 
-NuGet page: <a href="https://www.nuget.org/packages/Desktiny.WinUI/" target="_blank">Desktiny.WinUI</a>
+NuGet package: <a href="https://www.nuget.org/packages/Desktiny.WinUI/" target="_blank">Desktiny.WinUI</a>
 
 # Initial Setup
 
@@ -297,7 +307,7 @@ await DialogLang.ShowInformationAsync("DialogOKTest/Text");
 
 > `DialogLangService` contains the same methods but it has to be instanciated.
 
-The next entries are provided by default in `Desktiny.WinUI` for `en-US` and `es-MX` languages:
+The next entries are provided by default in `Desktiny` for `en-US` and `es-MX` languages:
 
 - DialogTitleDefault.Text
 - DialogCloseDefault.Text

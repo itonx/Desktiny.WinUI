@@ -37,8 +37,14 @@ These and more features are available in Desktiny. Using this library will make 
 You can install Desktiny by using the NuGet UI included in Visual Studio or by using the next command:
 
 ```bash
-dotnet add package Desktiny.WinUI --version 1.0.10
+dotnet add package Desktiny.WinUI
 ```
+
+NuGet package: https://www.nuget.org/packages/Desktiny.WinUI
+
+<p align="center">
+	<a target="_blank" href="https://www.nuget.org/packages/Desktiny.WinUI"><img width='150' alt="NuGet Gallery" src="https://upload.wikimedia.org/wikipedia/commons/2/25/NuGet_project_logo.svg"/></a>
+</p>
 
 # Initial Setup
 

@@ -1,14 +1,13 @@
 name: Publish Desktiny NuGet package
 
 on:
+  push:
+    tags:
+      - 'v*.*.*'
   workflow_dispatch: # Enables the "Run workflow" button
   push:
     branches:
       - main
-on:
-  push:
-    tags:
-      - 'v*.*.*'
 
 permissions:
   contents: read

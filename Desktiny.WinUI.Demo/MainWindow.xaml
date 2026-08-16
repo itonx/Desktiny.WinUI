@@ -23,8 +23,7 @@
         AppTheme="{Binding CurrentAppTheme, Mode=OneWay}"
         EnableTitleBarThemeButtons="True"
         IconPath="/Assets/SmallTile.png"
-        IsNocturneVisible="False"
-        MaximizeAtStartup="True">
+        IsNocturneVisible="False">
         <desktiny:Winston.TitleBar>
             <TitleBar Background="{ThemeResource AppBarBackgroundThemeBrush}">
                 <TitleBar.LeftHeader>

@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using Desktiny.WinUI.Demo.ViewModels;
+using Desktiny.WinUI.Extensions;
 using Desktiny.WinUI.Models;
 using Desktiny.WinUI.Services;
 using Microsoft.UI.Xaml;
-using System.Collections.Generic;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -16,9 +17,24 @@ namespace Desktiny.WinUI.Demo
     {
         private IList<AppThemeModel> themes = new List<AppThemeModel>()
         {
-            new AppThemeModel("Light", ElementTheme.Light, "Resources/OverrideWinUITheme.xaml", "\uE793"),
-            new AppThemeModel("Dark", ElementTheme.Dark, "Resources/OverrideWinUITheme.xaml", "\uF0CE"),
-            new AppThemeModel("Neuromancer", ElementTheme.Dark, "Resources/NeuromancerTheme.xaml", "\uE950")
+            new AppThemeModel(
+                "Light",
+                ElementTheme.Light,
+                "Resources/OverrideWinUITheme.xaml",
+                "\uE793"
+            ),
+            new AppThemeModel(
+                "Dark",
+                ElementTheme.Dark,
+                "Resources/OverrideWinUITheme.xaml",
+                "\uF0CE"
+            ),
+            new AppThemeModel(
+                "Neuromancer",
+                ElementTheme.Dark,
+                "Resources/NeuromancerTheme.xaml",
+                "\uE950"
+            ),
         };
 
         public MainWindow()
@@ -27,6 +43,7 @@ namespace Desktiny.WinUI.Demo
             ThemeService.RegisterThemes(themes);
             var vm = new MainViewModel();
             this.WinstonContainer.DataContext = vm;
+            _ = this.SetWindowPositionToCenter();
         }
     }
 }

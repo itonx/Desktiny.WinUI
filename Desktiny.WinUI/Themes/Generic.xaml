@@ -35,4 +35,26 @@
     </Style>
 
     <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="local:ThemeButton" />
+
+    <Style TargetType="local:ShimmerTextBlock">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ShimmerTextBlock">
+                    <Border
+                        x:Name="PART_Border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsControl x:Name="PART_Items" ItemsSource="{TemplateBinding TextBlockGroup}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

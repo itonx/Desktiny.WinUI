@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Desktiny.WinUI.Demo.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:Desktiny.WinUI"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Foreground="{ThemeResource TextFillColorPrimary}"
     mc:Ignorable="d">
@@ -28,6 +29,20 @@
                 <Button Command="{Binding GoToDemosPageCommand}" Foreground="{ThemeResource TextFillColorPrimary}">Demos</Button>
                 <Button Command="{Binding GoToBuyMeACoffeePageCommand}" Foreground="{ThemeResource TextFillColorPrimary}">Buy me a coffee</Button>
             </StackPanel>
+            <winui:ShimmerTextBlock
+                x:Name="AnimatedTextBlock"
+                HorizontalAlignment="Center"
+                FontSize="40"
+                TextBlockStyle="{ThemeResource TitleLargeTextBlockStyle}"
+                From="0.6"
+                To="1" />
+            <winui:ShimmerTextBlock
+                x:Name="AnimatedAuthorTextBlock"
+                HorizontalAlignment="Center"
+                FontSize="24"
+                TextBlockStyle="{ThemeResource TitleLargeTextBlockStyle}"
+                From="0.6"
+                To="1" />
         </StackPanel>
     </Grid>
 </Page>

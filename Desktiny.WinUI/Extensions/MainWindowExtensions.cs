@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Desktiny.WinUI.Tools;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Windows.Graphics;
 
 namespace Desktiny.WinUI.Extensions
 {
@@ -39,6 +41,27 @@ namespace Desktiny.WinUI.Extensions
         public static async Task SetWindowPositionToCenter(this Window window)
         {
             await Tools.WindowHelper.SetWindowPositionToCenter(window);
+        }
+
+        public static void MakeSplashScreen(this Window window, int width, int height)
+        {
+            var hwnd = Tools.WindowHelper.GetWindowHandle(window);
+            WindowId winId = Win32Interop.GetWindowIdFromWindow(hwnd);
+            AppWindow appW = AppWindow.GetFromWindowId(winId);
+
+            OverlappedPresenter presenter = appW.Presenter as OverlappedPresenter;
+            presenter.IsAlwaysOnTop = true;
+            presenter.IsMaximizable = false;
+            presenter.IsMinimizable = false;
+            presenter.IsResizable = false;
+            appW.IsShownInSwitchers = false;
+            appW.Resize(new SizeInt32(width, height));
+
+            window.Title = "";
+            presenter.SetBorderAndTitleBar(false, false);
+
+            DwmHelper.RemoveBorder(hwnd);
+            DwmHelper.StripStyles(hwnd);
         }
     }
 }

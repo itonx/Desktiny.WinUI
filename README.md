@@ -566,3 +566,23 @@ public SplashScreen()
 		.BeginOnLoaded(SplashContent);
 }
 ```
+
+Display the splash screen.
+
+```csharp
+protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+{
+	_splashScreen = new SplashScreen();
+	await _splashScreen.SetWindowPositionToCenter();
+	_splashScreen.Activate();
+	await Task.Delay(4000);
+
+	MainWindow = new MainWindow();
+	MainWindow.Closed += M_window_Closed;
+
+	await Task.Delay(100);
+	_splashScreen.Close();
+
+	MainWindow.Activate();
+}
+```

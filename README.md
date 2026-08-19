@@ -509,3 +509,60 @@ Custom resource for Light/Dark themes (default WinUI 3). One dictionary can be u
 <p align='center'>
     <img src="https://github.com/itonx/Desktiny.WinUI/blob/main/assets/neuromancer.png"/>
 </p>
+
+## Splash Screen + Shimmer text animation
+
+Add the `xmlns:desktiny="using:Desktiny.WinUI"` namespace to your XAML and add your design.
+
+```xml
+<Grid
+	x:Name="SplashGrid"
+	Background="Black"
+	CornerRadius="10"
+	Opacity="0">
+	<StackPanel
+		x:Name="SplashContent"
+		HorizontalAlignment="Center"
+		VerticalAlignment="Center"
+		Orientation="Vertical"
+		Spacing="15">
+
+		<Image
+			Width="100"
+			VerticalAlignment="Center"
+			Source="/Assets/yourlogo.png" />
+		<desktiny:ShimmerTextBlock
+			x:Name="AppTitle"
+			HorizontalAlignment="Center"
+			FontSize="40"
+			TextBlockStyle="{ThemeResource TitleLargeTextBlockStyle}"
+			From="0.6"
+			To="0.9" />
+		<desktiny:ShimmerTextBlock
+			x:Name="AppAuthor"
+			HorizontalAlignment="Center"
+			FontSize="24"
+			TextBlockStyle="{ThemeResource TitleLargeTextBlockStyle}"
+			From="0.6"
+			To="0.9" />
+	</StackPanel>
+</Grid>
+```
+
+Change the `From` and `To` properties to play with the shimmer animation.
+
+Make the window a SplashScreen and start the animation.
+
+```csharp
+public SplashScreen()
+{
+	InitializeComponent();
+	this.MakeSplashScreen(500, 300);
+	AnimationManager
+		.CreateInstance()
+		.AddStoryboard(Animations.CreateFadeInOut(SplashGrid, nameof(SplashGrid.Opacity)))
+		.AddStoryboard(AppTitle.CreateShimmerTextAnimation("Oblivionx"))
+		.AddStoryboard(AppAuthor.CreateShimmerTextAnimation("by itonx"))
+		.BeginOnLoaded(SplashContent);
+}
+```

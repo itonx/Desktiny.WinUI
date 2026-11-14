@@ -9,53 +9,147 @@ namespace Desktiny.WinUI.Services
 {
     public static class ThemeService
     {
-        private static SortedDictionary<string, AppThemeModel> _appThemesDict = new();
+        private static SortedDictionary<string, AppThemeModel> _appThemesDict = new(StringComparer.OrdinalIgnoreCase);
 
         public static AppThemeModel GetTheme()
         {
+            EnsureThemesRegistered();
+
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string savedTheme = (localSettings.Values[Constants.Global.SETTINGS_THEME_KEY] as string)?.ToLower() ?? string.Empty;
-            if (string.IsNullOrEmpty(savedTheme)) return _appThemesDict.Count > 0 ? _appThemesDict.FirstOrDefault().Value : new AppThemeModel(ElementTheme.Default);
+            string savedTheme = (localSettings.Values[Constants.Global.SETTINGS_THEME_KEY] as string)?.Trim() ?? string.Empty;
+            if (!string.IsNullOrEmpty(savedTheme)
+                && _appThemesDict.TryGetValue(savedTheme, out AppThemeModel savedAppTheme)
+                && IsValidTheme(savedAppTheme))
+            {
+                return savedAppTheme;
+            }
 
-            AppThemeModel appTheme = _appThemesDict.TryGetValue(savedTheme.ToLower(), out AppThemeModel value) ? value : null;
-            if (appTheme == null) return new(ElementTheme.Default);
+            AppThemeModel osTheme = GetThemeByElementTheme(GetOsElementTheme());
+            if (osTheme != null)
+            {
+                return osTheme;
+            }
 
-            return appTheme;
+            AppThemeModel firstTheme = _appThemesDict.Values.FirstOrDefault(IsValidTheme);
+            return firstTheme ?? CreateBuiltInTheme(ElementTheme.Light);
         }
 
         public static AppThemeModel GetNextTheme(AppThemeModel currentAppTheme)
         {
-            AppThemeModel nextAppTheme = null;
-            bool lastFound = false;
+            EnsureThemesRegistered();
 
-            foreach (var appTheme in _appThemesDict.Values)
+            try
             {
-                if (!lastFound && appTheme.Name.Equals(currentAppTheme?.Name, StringComparison.OrdinalIgnoreCase))
+                List<AppThemeModel> themes = _appThemesDict.Values.Where(IsValidTheme).ToList();
+                if (themes.Count == 0)
                 {
-                    lastFound = true;
-                    continue;
+                    AppThemeModel fallbackTheme = GetTheme();
+                    SaveThemeName(fallbackTheme);
+                    return fallbackTheme;
                 }
 
-                if (lastFound)
+                if (currentAppTheme == null)
                 {
-                    nextAppTheme = appTheme;
-                    break;
+                    AppThemeModel fallbackTheme = GetTheme();
+                    SaveThemeName(fallbackTheme);
+                    return fallbackTheme;
                 }
+
+                int currentThemeIndex = themes.FindIndex(theme =>
+                    theme.Name.Equals(currentAppTheme.Name, StringComparison.OrdinalIgnoreCase));
+
+                if (currentThemeIndex < 0)
+                {
+                    AppThemeModel fallbackTheme = GetTheme();
+                    SaveThemeName(fallbackTheme);
+                    return fallbackTheme;
+                }
+
+                AppThemeModel nextAppTheme = themes[(currentThemeIndex + 1) % themes.Count];
+                SaveThemeName(nextAppTheme);
+                return nextAppTheme;
             }
-
-            if (nextAppTheme == null) nextAppTheme = _appThemesDict.Values.Count > 0 ? _appThemesDict.Values.FirstOrDefault() : new(ElementTheme.Default);
-
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            localSettings.Values[Constants.Global.SETTINGS_THEME_KEY] = nextAppTheme?.Name;
-            return nextAppTheme;
+            catch
+            {
+                AppThemeModel fallbackTheme = GetTheme();
+                SaveThemeName(fallbackTheme);
+                return fallbackTheme;
+            }
         }
 
         public static void RegisterThemes(IEnumerable<AppThemeModel> appThemes)
         {
-            foreach (var appTheme in appThemes)
+            SortedDictionary<string, AppThemeModel> rebuiltThemes = new(StringComparer.OrdinalIgnoreCase);
+
+            if (appThemes != null)
             {
-                _appThemesDict.Add(appTheme.Name.ToLower(), appTheme);
+                foreach (AppThemeModel appTheme in appThemes)
+                {
+                    if (appTheme == null || string.IsNullOrWhiteSpace(appTheme.Name))
+                    {
+                        continue;
+                    }
+
+                    rebuiltThemes[appTheme.Name.Trim()] = appTheme;
+                }
             }
+
+            _appThemesDict = rebuiltThemes;
+            EnsureThemesRegistered();
+        }
+
+        private static void EnsureThemesRegistered()
+        {
+            if (_appThemesDict.Values.Any(IsValidTheme))
+            {
+                return;
+            }
+
+            _appThemesDict.Clear();
+            _appThemesDict["Light"] = CreateBuiltInTheme(ElementTheme.Light);
+            _appThemesDict["Dark"] = CreateBuiltInTheme(ElementTheme.Dark);
+        }
+
+        private static AppThemeModel GetThemeByElementTheme(ElementTheme elementTheme)
+        {
+            return _appThemesDict.Values.FirstOrDefault(theme =>
+                IsValidTheme(theme) && theme.ElementTheme == elementTheme);
+        }
+
+        private static ElementTheme GetOsElementTheme()
+        {
+            ApplicationTheme osTheme = Application.Current?.RequestedTheme ?? ApplicationTheme.Light;
+            return osTheme == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
+        }
+
+        private static AppThemeModel CreateBuiltInTheme(ElementTheme elementTheme)
+        {
+            string name = elementTheme == ElementTheme.Dark ? "Dark" : "Light";
+            return new AppThemeModel(elementTheme)
+            {
+                Name = name,
+                Icon = string.Empty
+            };
+        }
+
+        private static bool IsValidTheme(AppThemeModel appTheme)
+        {
+            if (appTheme == null || string.IsNullOrWhiteSpace(appTheme.Name))
+            {
+                return false;
+            }
+
+            return appTheme.ElementTheme == ElementTheme.Light || appTheme.ElementTheme == ElementTheme.Dark;
+        }
+
+        private static void SaveThemeName(AppThemeModel appTheme)
+        {
+            if (appTheme == null || string.IsNullOrWhiteSpace(appTheme.Name))
+            {
+                return;
+            }
+
+            ApplicationData.Current.LocalSettings.Values[Constants.Global.SETTINGS_THEME_KEY] = appTheme.Name;
         }
     }
 }

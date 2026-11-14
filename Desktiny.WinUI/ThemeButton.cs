@@ -27,7 +27,23 @@ namespace Desktiny.WinUI
 
         private void ThemeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.AppTheme = ThemeService.GetNextTheme(this.AppTheme);
+            if (this.AppTheme == null)
+            {
+                this.AppTheme = ThemeService.GetTheme();
+            }
+
+            if (this.AppTheme == null)
+            {
+                return;
+            }
+
+            AppThemeModel nextTheme = ThemeService.GetNextTheme(this.AppTheme);
+            if (nextTheme == null)
+            {
+                return;
+            }
+
+            this.AppTheme = nextTheme;
         }
     }
 }

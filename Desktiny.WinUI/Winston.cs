@@ -1,5 +1,6 @@
 using Desktiny.WinUI.Behaviors;
 using Desktiny.WinUI.Models;
+using Desktiny.WinUI.Services;
 using Desktiny.WinUI.Tools;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -90,8 +91,18 @@ namespace Desktiny.WinUI
 
         private static void OnAppThemeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Winston winContainer = d as Winston;
-            winContainer.SetApptheme((AppThemeModel)e.NewValue);
+            if (d is not Winston winContainer)
+            {
+                return;
+            }
+
+            AppThemeModel nextTheme = e.NewValue as AppThemeModel ?? ThemeService.GetTheme();
+            if (nextTheme == null)
+            {
+                return;
+            }
+
+            winContainer.SetApptheme(nextTheme);
         }
 
         public AppThemeModel AppTheme
@@ -176,28 +187,83 @@ namespace Desktiny.WinUI
 
         private void ChangeTitleBarButtonStyle()
         {
-            if (EnableTitleBarThemeButtons)
+            if (!EnableTitleBarThemeButtons)
             {
-                if (this.TitleBar.Background is SolidColorBrush titleBarBackground)
-                {
-                    this.AppWindow.TitleBar.ButtonBackgroundColor = titleBarBackground.Color;
-                    this.AppWindow.TitleBar.ButtonInactiveBackgroundColor = titleBarBackground.Color;
-                }
-                this.AppWindow.TitleBar.ButtonHoverBackgroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Color.FromArgb(50, 0, 0, 0) : Color.FromArgb(50, 255, 255, 255);
-                this.AppWindow.TitleBar.ButtonHoverForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
-                this.AppWindow.TitleBar.ButtonForegroundColor = this.AppTheme.ElementTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+                return;
             }
+
+            ElementTheme activeTheme = this.AppTheme?.ElementTheme == ElementTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
+
+            if (this.TitleBar.Background is SolidColorBrush titleBarBackground)
+            {
+                this.AppWindow.TitleBar.ButtonBackgroundColor = titleBarBackground.Color;
+                this.AppWindow.TitleBar.ButtonInactiveBackgroundColor = titleBarBackground.Color;
+            }
+            this.AppWindow.TitleBar.ButtonHoverBackgroundColor = activeTheme == ElementTheme.Light ? Color.FromArgb(50, 0, 0, 0) : Color.FromArgb(50, 255, 255, 255);
+            this.AppWindow.TitleBar.ButtonHoverForegroundColor = activeTheme == ElementTheme.Light ? Colors.Black : Colors.White;
+            this.AppWindow.TitleBar.ButtonForegroundColor = activeTheme == ElementTheme.Light ? Colors.Black : Colors.White;
         }
 
         private void SetApptheme(AppThemeModel appThemeModel)
         {
-            if (appThemeModel == null) return;
             Grid container = this.GetWindowContainer();
-            if (container == null) return;
-            ResourceDictionary lastDictionary = Application.Current.Resources.MergedDictionaries.LastOrDefault(d => d.Source.AbsoluteUri.Contains("Theme.xaml"));
-            ElementTheme switchTo = appThemeModel.ElementTheme == ElementTheme.Light ? ElementTheme.Dark : ElementTheme.Light;
+            if (container == null)
+            {
+                return;
+            }
 
-            if (_removeLastThemeResource != null && (bool)_removeLastThemeResource && lastDictionary != null && lastDictionary.Source != null)
+            AppThemeModel themeToApply = NormalizeTheme(appThemeModel);
+            if (themeToApply == null)
+            {
+                return;
+            }
+
+            try
+            {
+                ApplyThemeDictionary(themeToApply);
+            }
+            catch
+            {
+                themeToApply = CreateBuiltInTheme(themeToApply.ElementTheme == ElementTheme.Dark ? ElementTheme.Dark : ElementTheme.Light);
+
+                try
+                {
+                    ApplyThemeDictionary(themeToApply);
+                }
+                catch
+                {
+                    _removeLastThemeResource = false;
+                }
+            }
+
+            ElementTheme switchTo = themeToApply.ElementTheme == ElementTheme.Light ? ElementTheme.Dark : ElementTheme.Light;
+            container.RequestedTheme = switchTo;
+            container.RequestedTheme = themeToApply.ElementTheme;
+        }
+
+        private AppThemeModel NormalizeTheme(AppThemeModel appThemeModel)
+        {
+            if (appThemeModel != null && (appThemeModel.ElementTheme == ElementTheme.Light || appThemeModel.ElementTheme == ElementTheme.Dark))
+            {
+                return appThemeModel;
+            }
+
+            AppThemeModel fallbackTheme = ThemeService.GetTheme();
+            if (fallbackTheme != null && (fallbackTheme.ElementTheme == ElementTheme.Light || fallbackTheme.ElementTheme == ElementTheme.Dark))
+            {
+                return fallbackTheme;
+            }
+
+            ElementTheme osTheme = Application.Current?.RequestedTheme == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
+            return CreateBuiltInTheme(osTheme);
+        }
+
+        private void ApplyThemeDictionary(AppThemeModel appThemeModel)
+        {
+            ResourceDictionary lastDictionary = Application.Current.Resources.MergedDictionaries.LastOrDefault(d =>
+                d?.Source?.AbsoluteUri?.Contains("Theme.xaml") == true);
+
+            if (_removeLastThemeResource == true && lastDictionary != null)
             {
                 Application.Current.Resources.MergedDictionaries.Remove(lastDictionary);
             }
@@ -205,15 +271,22 @@ namespace Desktiny.WinUI
             _removeLastThemeResource = appThemeModel.ThemeResource != null;
             if (appThemeModel.ThemeResource != null)
             {
-                ResourceDictionary resourceTheme = new ResourceDictionary()
+                ResourceDictionary resourceTheme = new()
                 {
                     Source = appThemeModel.ThemeResource
                 };
                 Application.Current.Resources.MergedDictionaries.Add(resourceTheme);
             }
+        }
 
-            container.RequestedTheme = switchTo;
-            container.RequestedTheme = appThemeModel.ElementTheme;
+        private static AppThemeModel CreateBuiltInTheme(ElementTheme elementTheme)
+        {
+            string name = elementTheme == ElementTheme.Dark ? "Dark" : "Light";
+            return new AppThemeModel(elementTheme)
+            {
+                Name = name,
+                Icon = string.Empty
+            };
         }
 
         private void SetWindows()
